@@ -1,0 +1,1229 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="使用代码检查工具（例如 Lint）可以帮助您找到问题并改进代码，不过，检查工具只能推断这么多信息。例如，Android 资源 ID 使用 int  标识字符串、图形、颜色和其他资源类型，因此，检查工具无法告诉您何时指定字符串资源以及应在什么地方指定颜色。在这种情况下，您的应用可能无法正确渲染或根本无法运行，即使使用代码检查也是如此。您可以使用注解向 Lint 之类的代码检查工具提供提示，帮助检测这">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(转)使用注解改进代码检查">
+<meta property="og:url" content="http://yoursite.com/2017/04/22/转-使用注解改进代码检查/index.html">
+<meta property="og:site_name" content="兰兰笑笑生">
+<meta property="og:description" content="使用代码检查工具（例如 Lint）可以帮助您找到问题并改进代码，不过，检查工具只能推断这么多信息。例如，Android 资源 ID 使用 int  标识字符串、图形、颜色和其他资源类型，因此，检查工具无法告诉您何时指定字符串资源以及应在什么地方指定颜色。在这种情况下，您的应用可能无法正确渲染或根本无法运行，即使使用代码检查也是如此。您可以使用注解向 Lint 之类的代码检查工具提供提示，帮助检测这">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-af93984644d38a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-963fa778ad8aad3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-27T11:36:52.810Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(转)使用注解改进代码检查">
+<meta name="twitter:description" content="使用代码检查工具（例如 Lint）可以帮助您找到问题并改进代码，不过，检查工具只能推断这么多信息。例如，Android 资源 ID 使用 int  标识字符串、图形、颜色和其他资源类型，因此，检查工具无法告诉您何时指定字符串资源以及应在什么地方指定颜色。在这种情况下，您的应用可能无法正确渲染或根本无法运行，即使使用代码检查也是如此。您可以使用注解向 Lint 之类的代码检查工具提供提示，帮助检测这">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1155837-af93984644d38a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/04/22/转-使用注解改进代码检查/"/>
+
+
+
+
+
+  <title>(转)使用注解改进代码检查 | 兰兰笑笑生</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=57021224";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">兰兰笑笑生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/22/转-使用注解改进代码检查/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="兰兰笑笑生">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兰兰笑笑生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">(转)使用注解改进代码检查</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-22T17:02:38+08:00">
+                2017-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/程序开发/" itemprop="url" rel="index">
+                    <span itemprop="name">程序开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/22/转-使用注解改进代码检查/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/22/转-使用注解改进代码检查/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>使用代码检查工具（例如 <a href="https://developer.android.com/studio/write/lint.html" target="_blank" rel="external">Lint</a>）可以帮助您找到问题并改进代码，不过，检查工具只能推断这么多信息。例如，Android 资源 ID 使用 int  标识字符串、图形、颜色和其他资源类型，因此，检查工具无法告诉您何时指定字符串资源以及应在什么地方指定颜色。在这种情况下，您的应用可能无法正确渲染或根本无法运行，即使使用代码检查也是如此。<br>您可以使用注解向 Lint 之类的代码检查工具提供提示，帮助检测这些更细微的代码问题。您可以将注解作为元数据标记附加至变量、参数和返回值，用于检查方法返回值、传递的参数以及本地变量和字段。如果与代码检查工具搭配使用，注解可以帮助您检测问题，例如 null 指针异常和资源类型冲突。<br>Android 通过<a href="https://developer.android.com/topic/libraries/support-library/features.html#annotations" target="_blank" rel="external">注解支持库</a>支持各种注解。您可以通过 <a href="https://developer.android.com/reference/android/support/annotation/package-summary.html" target="_blank" rel="external">android.support.annotation</a> 软件包获取该库。</p>
+<h2 id="向您的项目添加注解"><a href="#向您的项目添加注解" class="headerlink" title="向您的项目添加注解"></a>向您的项目添加注解</h2><p>要在您的项目中启用注解，请向您的库或应用添加 <code>support-annotations</code> 依赖项。添加的任何注解都会在您随后运行代码检查或 <code>lint</code>任务时进行检查。</p>
+<h3 id="添加支持注解库依赖项"><a href="#添加支持注解库依赖项" class="headerlink" title="添加支持注解库依赖项"></a>添加支持注解库依赖项</h3><p>支持注解库是 <a href="https://developer.android.com/tools/support-library/index.html" target="_blank" rel="external">Android 支持库</a>的一部分。要向您的项目添加注解，您必须下载支持存储库并向 <code>build.gradle</code> 文件中添加 <code>support-annotations</code> 依赖项。</p>
+<ol>
+<li>打开 <strong>SDK 管理器</strong>，方法是点击工具栏中的 <strong>SDK Manager</strong> 图标 <img src="http://upload-images.jianshu.io/upload_images/1155837-af93984644d38a14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="toolbar-sdk-manager.png">或者选择 <strong>Tools</strong> &gt; <strong>Android</strong> &gt; <strong>SDK Manager</strong>。</li>
+<li>点击 <strong>SDK Tools</strong> 标签。</li>
+<li>展开 <strong>Support Repository</strong> 并选中 <strong>Android Support Repository</strong> 复选框。</li>
+<li>点击 <strong>OK</strong>。</li>
+<li>继续安装向导的说明操作，安装软件包。</li>
+<li>将以下代码行添加到 <code>build.gradle</code> 文件的 <code>dependencies</code> 块中，向您的项目添加 <code>support-annotations</code> 依赖项： <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dependencies &#123; compile com.android.support:support-annotations:<span class="number">24.2</span>.0<span class="string">' &#125;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>您下载的库版本可能较高，因此，确保您在此指定的值与第 3 步中的版本匹配。</p>
+<ol>
+<li>在显示的工具栏或同步通知中，点击 <strong>Sync Now</strong>。</li>
+</ol>
+<p>如果您在自己的库模块中使用注解，注解将作为 Android 归档 (AAR) 工件的一部分以 XML 格式添加到 <code>annotations.zip</code> 文件中。添加 <code>support-annotations</code> 依赖项不会为您的库的任何下游用户引入依赖关系。<br>如果想要在未使用适用于 Gradle 的 Android 插件但使用 <a href="https://docs.gradle.org/current/userguide/java_plugin.html" target="_blank" rel="external">Gradle Java 插件</a>的 Gradle 模块中使用注解（<code>com.android.application</code> 或 <code>com.android.library</code>），您必须明确添加 SDK 存储库，因为无法从 JCenter Java 存储库获得 Android 支持库：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">repositories &#123;   jcenter()   maven &#123; url <span class="string">'&lt;your-SDK-path&gt;/extras/android/m2repository'</span> &#125;&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>注</strong>：如果您使用 <a href="https://developer.android.com/reference/android/support/v7/appcompat/package-summary.html" target="_blank" rel="external">appcompat</a> 库，则无需添加 <code>support-annotations</code> 依赖项。因为 <code>appcompat</code> 库已经依赖注解库，您可以访问相关注解。<br>要查看支持存储库中包含的完整注解列表，请查看<a href="https://developer.android.com/reference/android/support/annotation/package-summary.html" target="_blank" rel="external">支持注解库参考</a>，或者使用自动填充功能显示 <code>import android.support.annotation.</code> 语句的可用选项。</p>
+<h3 id="运行代码检查"><a href="#运行代码检查" class="headerlink" title="运行代码检查"></a>运行代码检查</h3><p>要从 Android Studio 启动代码检查（包含验证注解和自动 Lint 检查），请从菜单栏中选择 <strong>Analyze</strong> &gt; <strong>Inspect Code</strong>。Android Studio 将显示冲突消息，在您的代码与注解冲突的地方标记潜在问题并建议可能的解决方法。<br>您还可以通过<a href="https://developer.android.com/studio/write/lint.html#commandline" target="_blank" rel="external">使用命令行运行 lint 任务</a>来强制注解。尽管这对标记持续集成服务器遇到的问题可能有用，请注意，<code>lint</code> 任务并不会强制 nullness 注解（只有 Android Studio 会强制）。如需了解有关启用和运行 Lint 检查的详细信息，请参阅<a href="https://developer.android.com/tools/debugging/improving-w-lint.html" target="_blank" rel="external">使用 Lint 改进您的代码</a>。<br>请注意，尽管注解冲突会生成警告，但这些警告不会阻止您的应用编译。</p>
+<h2 id="Nullness-注解"><a href="#Nullness-注解" class="headerlink" title="Nullness 注解"></a>Nullness 注解</h2><p>添加 <a href="https://developer.android.com/reference/android/support/annotation/Nullable.html" target="_blank" rel="external">@Nullable</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/NonNull.html" target="_blank" rel="external">@NonNull</a> 注解，以检查给定变量、参数或返回值的 nullness。<code>@Nullable</code> 注解指示可以为 null 的变量、参数或返回值，而 <code>@NonNull</code> 则指示不可为 null 的变量、参数或返回值。<br>例如，如果一个包含 null 值的局部变量作为已附加 <code>@NonNull</code> 注解的参数传递到某个方法，则构建代码将生成一个指示非 null 冲突的警告。另一方面，对于通过 <code>@Nullable</code> 标记的方法的结果，如果不先检查其是否为 null，那么在尝试引用它时将生成 nullness 警告。只有在每次使用方法时都应明确检查是否为 null 的情况下，才应对方法返回值使用 <code>@Nullable</code> 。<br>下面的示例会将 <code>@NonNull</code> 注解附加到 <code>context</code> 与 <code>attrs</code> 参数，以检查传递的参数值是否不为 null。它还会检查 <code>onCreateView()</code> 方法本身是否不会返回 null：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> android.support.annotation.NonNull;</div><div class="line"><span class="comment">/** Add support for inflating the &lt;fragment&gt; tag. **/</span>    </div><div class="line"><span class="meta">@NonNull</span>    </div><div class="line"><span class="meta">@Override</span>   </div><div class="line"><span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(String name, </span></span></div><div class="line">        @NonNull Context context,     </div><div class="line">        @NonNull AttributeSet attrs) &#123; </div><div class="line">     ...     </div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h3 id="Nullability-分析"><a href="#Nullability-分析" class="headerlink" title="Nullability 分析"></a>Nullability 分析</h3><p>Android Studio 支持通过运行 nullability 分析，在您的代码中自动推断和插入 nullness 注解。Nullability 分析会在您代码的整个方法层次结构中扫描协定类，以检测：</p>
+<ul>
+<li>可返回 Null 的调用方法</li>
+<li>不会返回 Null 的方法</li>
+<li>可以为 Null 的变量，如字段、局部变量和参数</li>
+<li>不能为 Null 值的变量，如字段、局部变量和参数</li>
+</ul>
+<p>然后，此分析将自动在已检测到的位置插入相应的 null 注解。<br>要在 Android Studio 中运行 nullability 分析，请选择 <strong>Analyze</strong> &gt; <strong>Infer Nullity</strong>。Android Studio 会在代码中已检测到的位置插入 Android <a href="https://developer.android.com/reference/android/support/annotation/Nullable.html" target="_blank" rel="external">@Nullable</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/NonNull.html" target="_blank" rel="external">@NonNull</a> 注解。运行 null 分析后，最好验证一下插入的这些注解。</p>
+<p><strong>注</strong>：添加 nullness 注解时，自动填充可能会建议 IntelliJ <a href="https://www.jetbrains.com/help/idea/2016.1/nullable-and-notnull-annotations.html" target="_blank" rel="external">@Nullable 和 @NotNull</a> 注解而不是 Android null 注解，并且可能会自动导入相应的库。不过，Android Studio Lint 检查器仅会查找 Android null 注解。验证您的注解时，请确认您的项目使用 Android null 注解，以便 Lint 检查器可以在代码检查期间正确通知您。</p>
+<h2 id="资源注解"><a href="#资源注解" class="headerlink" title="资源注解"></a>资源注解</h2><p>验证资源类型可能非常有用，因为 Android 对资源（例如<a href="https://developer.android.com/guide/topics/resources/drawable-resource.html" target="_blank" rel="external">可绘制对象</a>和<a href="https://developer.android.com/guide/topics/resources/string-resource.html" target="_blank" rel="external">字符串</a>资源）的引用以整型形式传递。需要参数来引用特定类型资源（例如可绘制对象）的代码可以作为预计的引用类型 int 传入，不过实际将引用不同类型的资源，例如 R.string 资源。<br>例如，添加 <a href="https://developer.android.com/reference/android/support/annotation/StringRes.html" target="_blank" rel="external">@StringRes</a> 注解，以检查资源参数是否包含 <code>R.string</code> 引用，如下面所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setTitle</span><span class="params">(@StringRes <span class="keyword">int</span> resId)</span> </span>&#123; … &#125;</div></pre></td></tr></table></figure></p>
+<p>在代码检查期间，如果参数中未传入 <code>R.string</code> 引用，注解将生成警告。<br>其他资源类型的注解（例如 <a href="https://developer.android.com/reference/android/support/annotation/DrawableRes.html" target="_blank" rel="external">@DrawableRes</a>、<a href="https://developer.android.com/reference/android/support/annotation/DimenRes.html" target="_blank" rel="external">@DimenRes</a>、<a href="https://developer.android.com/reference/android/support/annotation/ColorRes.html" target="_blank" rel="external">@ColorRes</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/InterpolatorRes.html" target="_blank" rel="external">@InterpolatorRes</a>）可以使用相同的注解格式添加并在代码检查期间运行。如果您的参数支持多种资源类型，您可以在给定参数上添加更多注解。使用 <a href="https://developer.android.com/reference/android/support/annotation/AnyRes.html" target="_blank" rel="external">@AnyRes</a> 能够指示注解的参数可为任意类型的 R 资源。<br>尽管您可以使用 <a href="https://developer.android.com/reference/android/support/annotation/ColorRes.html" target="_blank" rel="external">@ColorRes</a> 指定某个参数应为颜色资源，但是颜色整型（<code>RRGGBB</code> 或 <code>AARRGGBB</code> 格式）无法识别为颜色资源。请改用 <a href="https://developer.android.com/reference/android/support/annotation/ColorInt.html" target="_blank" rel="external">@ColorInt</a> 注解指示某个参数必须为颜色整型。构建工具会标记不正确代码，该代码会将颜色资源 ID（例如 <code>android.R.color.black</code>）而不是颜色整型传递到已注解方法。</p>
+<h2 id="线程注解"><a href="#线程注解" class="headerlink" title="线程注解"></a>线程注解</h2><p>线程注解可以检查某个方法是否从特定类型的<a href="https://developer.android.com/guide/components/processes-and-threads.html" target="_blank" rel="external">线程</a>调用。支持以下线程注解：</p>
+<ul>
+<li><a href="https://developer.android.com/reference/android/support/annotation/MainThread.html" target="_blank" rel="external">@MainThread</a></li>
+<li><a href="https://developer.android.com/reference/android/support/annotation/UiThread.html" target="_blank" rel="external">@UiThread</a></li>
+<li><a href="https://developer.android.com/reference/android/support/annotation/WorkerThread.html" target="_blank" rel="external">@WorkerThread</a></li>
+<li><a href="https://developer.android.com/reference/android/support/annotation/BinderThread.html" target="_blank" rel="external">@BinderThread</a></li>
+<li><a href="https://developer.android.com/reference/android/support/annotation/AnyThread.html" target="_blank" rel="external">@AnyThread</a></li>
+</ul>
+<p><strong>注</strong>：构建工具会将 <code>@MainThread</code> 和 <code>@UiThread</code> 注解视为可互换，因此，您可以从 <code>@MainThread</code> 方法调用 <code>@UiThread</code> 方法，反之亦然。不过，如果系统应用在不同线程上带有多个视图，UI 线程可与主线程不同。因此，您应使用 <code>@UiThread</code> 标注与应用的视图层次结构关联的方法，使用 <code>@MainThread</code> 仅标注与应用生命周期关联的方法。</p>
+<p>如果某个类中的所有方法具有相同的线程要求，您可以向该类添加一个线程注解，以验证该类中的所有方法是否均从相同类型的线程调用。线程注解的一个常见用途是验证 <a href="https://developer.android.com/reference/android/os/AsyncTask.html" target="_blank" rel="external">AsyncTask</a> 类中的方法替换，因为此类会执行后台操作并将结果仅发布到 UI 线程上。</p>
+<h2 id="值约束注解"><a href="#值约束注解" class="headerlink" title="值约束注解"></a>值约束注解</h2><p>使用 <a href="https://developer.android.com/reference/android/support/annotation/IntRange.html" target="_blank" rel="external">@IntRange</a>、<a href="https://developer.android.com/reference/android/support/annotation/FloatRange.html" target="_blank" rel="external">@FloatRange</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/Size.html" target="_blank" rel="external">@Size</a> 注解可以验证传递的参数的值。在应用到用户可能弄错其范围的参数时，<code>@IntRange</code> 和 <code>@FloatRange</code> 都非常有用。<code>@IntRange</code> 注解可以验证整型或长整型参数值是否位于指定范围内。下面的示例可以确保 <code>alpha</code> 参数包含 0 至 255 范围内的整数值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAlpha</span><span class="params">(@IntRange(from=<span class="number">0</span>,to=<span class="number">255</span>)</span> <span class="keyword">int</span> alpha) </span>&#123; … &#125;</div></pre></td></tr></table></figure></p>
+<p><code>@FloatRange</code> 注解可以检查浮点或双整型参数值是否位于指定的浮点值范围内。下面的示例可以确保 <code>alpha</code> 参数包含 0.0 至 1.0 的浮点值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAlpha</span><span class="params">(@FloatRange(from=<span class="number">0.0</span>, to=<span class="number">1.0</span>)</span> <span class="keyword">float</span> alpha) </span>&#123;...&#125;</div></pre></td></tr></table></figure></p>
+<p><code>@Size</code> 注解可以检查集合或数组的大小，以及字符串的长度。<code>@Size</code> 注解可用于验证以下质量：</p>
+<ul>
+<li>最小大小（例如 <code>@Size(min=2)</code>）</li>
+<li>最大大小（例如 <code>@Size(max=2)</code>）</li>
+<li>确切大小（例如 <code>@Size(2)</code>）</li>
+<li>表示大小必须为此倍数的数字（例如 <code>@Size(multiple=2)</code>）</li>
+</ul>
+<p>例如，<code>@Size(min=1)</code> 可以检查某个集合是否不为空，<code>@Size(3)</code> 可以验证某个数组是否刚好包含三个值。下面的示例可以确保 <code>location</code>数组至少包含一个元素：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span>[] location = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>];button.getLocationOnScreen(<span class="meta">@Size</span>(min=<span class="number">1</span>) location);</div></pre></td></tr></table></figure></p>
+<h2 id="权限注解"><a href="#权限注解" class="headerlink" title="权限注解"></a>权限注解</h2><p>使用 <a href="https://developer.android.com/reference/android/support/annotation/RequiresPermission.html" target="_blank" rel="external">@RequiresPermission</a> 注解可以验证方法调用方的权限。要检查有效权限列表中是否存在某个权限，请使用 <code>anyOf</code> 属性。要检查是否存在一组权限，请使用 <code>allOf</code> 属性。下面的示例会标注 <code>setWallpaper()</code> 方法，以确保方法的调用方拥有 <code>permission.SET_WALLPAPERS</code> 权限：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresPermission</span>(Manifest.permission.SET_WALLPAPER)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setWallpaper</span><span class="params">(Bitmap bitmap)</span> <span class="keyword">throws</span> IOException</span>;</div></pre></td></tr></table></figure></p>
+<p>此示例要求 <code>copyFile()</code> 方法的调用方同时具有外部存储空间的读写权限：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresPermission</span>(allOf = &#123;    Manifest.permission.READ_EXTERNAL_STORAGE,    Manifest.permission.WRITE_EXTERNAL_STORAGE&#125;)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">copyFile</span><span class="params">(String dest, String source)</span> </span>&#123;    ...&#125;</div></pre></td></tr></table></figure></p>
+<p>对于 <code>intent</code> 权限，请将权限要求添加到定义 <code>intent</code> 操作名称的字符串字段上：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresPermission</span>(android.Manifest.permission.BLUETOOTH)</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ACTION_REQUEST_DISCOVERABLE =            <span class="string">"android.bluetooth.adapter.action.REQUEST_DISCOVERABLE"</span>;</div></pre></td></tr></table></figure></p>
+<p>对于您需要单独读写权限的内容提供程序的权限，请在 <a href="https://developer.android.com/reference/android/support/annotation/RequiresPermission.Read.html" target="_blank" rel="external">@RequiresPermission.Read </a> 或 <a href="https://developer.android.com/reference/android/support/annotation/RequiresPermission.Write.html" target="_blank" rel="external">@RequiresPermission.Write </a> 注解中包含每个权限要求：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequiresPermission</span>.Read(<span class="meta">@RequiresPermission</span>(READ_HISTORY_BOOKMARKS))</div><div class="line"><span class="meta">@RequiresPermission</span>.Write(<span class="meta">@RequiresPermission</span>(WRITE_HISTORY_BOOKMARKS))</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Uri BOOKMARKS_URI = Uri.parse(<span class="string">"content://browser/bookmarks"</span>);</div></pre></td></tr></table></figure></p>
+<h2 id="间接权限"><a href="#间接权限" class="headerlink" title="间接权限"></a>间接权限</h2><p>如果权限依赖于提供给方法参数的特定值，请对参数本身使用 <code>@RequiresPermission</code>，而不用列出具体权限。例如，<a href="https://developer.android.com/reference/android/app/Activity.html#startActivity(android.content.Intent" target="_blank" rel="external">startActivity(Intent)</a>) 方法会对传递到方法的 intent 使用间接权限：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">startActivity</span><span class="params">(@RequiresPermission Intent intent, @Nullable Bundle)</span> </span>&#123;...&#125;</div></pre></td></tr></table></figure></p>
+<p>在您使用间接权限时，构建工具将执行数据流分析以检查传递到方法的参数是否具有任何 <code>@RequiresPermission</code> 注解。随后，它们会对方法本身强制参数的任何现有注解。在 <code>startActivity(Intent)</code> 示例中，当一个不具有相应权限的 intent 传递到方法时，<a href="https://developer.android.com/reference/android/content/Intent.html" target="_blank" rel="external">Intent</a> 类中的注解会针对 <code>startActivity(Intent)</code> 的无效使用生成警告，如图 1 中所示。<br><img src="http://upload-images.jianshu.io/upload_images/1155837-963fa778ad8aad3c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="indirect-permissions-warning_2-2_2x.png"><br><strong>图 1.</strong> <code>startActivity(Intent)</code> 方法上从间接权限注解生成的警告。<br>构建工具会在 <code>startActivity(Intent)</code> 上从 <a href="https://developer.android.com/reference/android/content/Intent.html" target="_blank" rel="external">Intent</a> 类中相应 intent 操作名称的注解生成警告：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@SdkConstant</span>(SdkConstantType.ACTIVITY_INTENT_ACTION)</div><div class="line"><span class="meta">@RequiresPermission</span>(Manifest.permission.CALL_PHONE)</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ACTION_CALL = <span class="string">"android.intent.action.CALL"</span>;</div></pre></td></tr></table></figure></p>
+<p>如果需要，在标注方法的参数时，您可以将 <code>@RequiresPermission</code> 替换为 <code>@RequiresPermission.Read</code> 和/或 <code>@RequiresPermission.Write</code>。不过，间接权限 <code>@RequiresPermission</code> 不应与读取或写入权限注解搭配使用。</p>
+<h2 id="返回值注解"><a href="#返回值注解" class="headerlink" title="返回值注解"></a>返回值注解</h2><p>使用 <a href="https://developer.android.com/reference/android/support/annotation/CheckResult.html" target="_blank" rel="external">@CheckResult</a> 注解可以验证实际使用的是方法的结果还是返回值。添加注释来阐明可能令人困惑的方法的结果，而不是使用 <code>@CheckResult</code> 标注每个非空方法。例如，新 Java 开发者经常误认为 <code>&lt;String&gt;.trim()</code> 会移除原始字符串中的空格。使用 <code>@CheckResult</code>标注方法会在调用方未对方法返回值作任何处理的地方标记 <code>&lt;String&gt;.trim()</code>的使用。<br>下面的示例会标注 <a href="https://developer.android.com/reference/android/content/pm/PackageManager.html#checkPermission(java.lang.String,java.lang.String" target="_blank" rel="external">checkPermissions()</a>) 方法，以确保实际引用方法的返回值。它还会将 <a href="https://developer.android.com/reference/android/content/ContextWrapper.html#enforcePermission" target="_blank" rel="external">enforcePermission()</a> 方法指定为要向开发者建议的替换方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@CheckResult</span>(suggest=<span class="string">"#enforcePermission(String,int,int,String)"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">checkPermission</span><span class="params">(@NonNull String permission, <span class="keyword">int</span> pid, <span class="keyword">int</span> uid)</span></span>;</div></pre></td></tr></table></figure></p>
+<h2 id="CallSuper-注解"><a href="#CallSuper-注解" class="headerlink" title="CallSuper 注解"></a>CallSuper 注解</h2><p>使用 <a href="https://developer.android.com/reference/android/support/annotation/CallSuper.html" target="_blank" rel="external">@CallSuper</a> 注解可以验证替换方法是否会调用方法的超类实现。下面的示例会标注 <code>onCreate()</code> 方法，以确保任何替换方法实现都会调用 <code>super.onCreate()</code> ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@CallSuperprotected</span> <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="Typedef-注解"><a href="#Typedef-注解" class="headerlink" title="Typedef 注解"></a>Typedef 注解</h2><p>使用 <a href="https://developer.android.com/reference/android/support/annotation/IntDef.html" target="_blank" rel="external">@IntDef</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/StringDef.html" target="_blank" rel="external">@StringDef</a> 注解，以便能够创建整型和字符串集的枚举注解来验证其他类型的代码引用。Typedef 注解可以确保特定参数、返回值或字段引用特定的常量集。它们还可以完成代码以自动提供允许的常量。<br>Typedef 注解使用 <code>@interface</code>声明新的枚举注解类型。<code>@IntDef</code> 和 <code>@StringDef</code> 注解以及 <code>@Retention</code> 可以标注新注解，并且为定义枚举的类型所必需。<code>@Retention(RetentionPolicy.SOURCE)</code> 注解可以告知编译器不将枚举的注解数据存储在 <code>.class</code> 文件中。<br>下面的示例说明了创建注解的具体步骤，此注解可以确保作为方法参数传递的值引用一个定义的常量：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> android.support.annotation.IntDef;</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">ActionBar</span> </span>&#123;    </div><div class="line">           <span class="comment">// Define the list of accepted constants and declare the NavigationMode annotation               </span></div><div class="line">          <span class="meta">@Retention</span>(RetentionPolicy.SOURCE)   </div><div class="line">          <span class="meta">@IntDef</span>(&#123;NAVIGATION_MODE_STANDARD, NAVIGATION_MODE_LIST, NAVIGATION_MODE_TABS&#125;)    </div><div class="line">          <span class="keyword">public</span> <span class="meta">@interface</span> NavigationMode &#123;&#125;    </div><div class="line">          <span class="comment">// Declare the constants    </span></div><div class="line">          <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NAVIGATION_MODE_STANDARD = <span class="number">0</span>;    </div><div class="line">          <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NAVIGATION_MODE_LIST = <span class="number">1</span>;    </div><div class="line">          <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NAVIGATION_MODE_TABS = <span class="number">2</span>;    </div><div class="line"></div><div class="line">          <span class="comment">// Decorate the target methods with the annotation    </span></div><div class="line">          <span class="meta">@NavigationMode</span>    </div><div class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> <span class="title">getNavigationMode</span><span class="params">()</span></span>;    </div><div class="line">          <span class="comment">// Attach the annotation    </span></div><div class="line">          <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">setNavigationMode</span><span class="params">(@NavigationMode <span class="keyword">int</span> mode)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>在您构建此代码时，如果 mode 参数不引用一个定义的常量（NAVIGATION_MODE_STANDARD、NAVIGATION_MODE_LIST 或 NAVIGATION_MODE_TABS），则会生成警告。<br>您还可以组合 <a href="https://developer.android.com/reference/android/support/annotation/IntDef.html" target="_blank" rel="external">@IntDef</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/IntRange.html" target="_blank" rel="external">@IntRange</a>，以指示整型可以是给定的常量集或某个范围内的值。</p>
+<h3 id="允许将常量与标志相结合"><a href="#允许将常量与标志相结合" class="headerlink" title="允许将常量与标志相结合"></a>允许将常量与标志相结合</h3><p>如果用户可以将允许的常量与标志（例如，<code>|</code>、<code>&amp;</code> 和 <code>^</code>，等等）相结合，则您可以通过 <code>flag</code> 属性定义一个注解，以检查某个参数或返回值是否会引用有效模式。下面的示例将使用一组有效的 <code>DISPLAY_</code> 常量创建 <code>DisplayOptions</code> 注解：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> android.support.annotation.IntDef;</div><div class="line">...</div><div class="line"><span class="meta">@IntDef</span>(flag=<span class="keyword">true</span>, value=&#123;        DISPLAY_USE_LOGO,        DISPLAY_SHOW_HOME,        DISPLAY_HOME_AS_UP,        DISPLAY_SHOW_TITLE,        DISPLAY_SHOW_CUSTOM&#125;)</div><div class="line"></div><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.SOURCE)</div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> DisplayOptions &#123;&#125;</div><div class="line">...</div></pre></td></tr></table></figure></p>
+<p>在您使用注解标志构建代码时，如果经过修饰的参数或返回值不引用有效模式，则将生成警告。</p>
+<h2 id="代码可访问性注解"><a href="#代码可访问性注解" class="headerlink" title="代码可访问性注解"></a>代码可访问性注解</h2><p>使用 <a href="https://developer.android.com/reference/android/support/annotation/VisibleForTesting.html" target="_blank" rel="external">@VisibleForTesting</a> 和 <a href="https://developer.android.com/reference/android/support/annotation/Keep.html" target="_blank" rel="external">@Keep</a> 注解可以表示方法、类或字段的可访问性。<br><code>@VisibleForTesting</code> 注解指示一个代码块的可见性是否高于让代码变得可测试所需要的水平。<br><code>@Keep</code> 注解可以确保如果在构建时<a href="https://developer.android.com/studio/build/shrink-code.html" target="_blank" rel="external">缩减</a>代码，标注的元素不会移除。它一般会添加到通过反射访问的方法和类中，以阻止编译器将代码视为未使用。</p>
+<h2 id="另请参阅"><a href="#另请参阅" class="headerlink" title="另请参阅"></a>另请参阅</h2><p><a href="https://developer.android.com/tools/debugging/improving-w-lint.html" target="_blank" rel="external">使用 Lint 改进您的代码</a><br><a href="https://developer.android.com/tools/studio/index.html#annotations" target="_blank" rel="external">Android Studio 中的注解</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/16/Java中容易出错的笔试题/" rel="next" title="Java中容易出错的笔试题">
+                <i class="fa fa-chevron-left"></i> Java中容易出错的笔试题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/logo.png"
+               alt="兰兰笑笑生" />
+          <p class="site-author-name" itemprop="name">兰兰笑笑生</p>
+           
+              <p class="site-description motion-element" itemprop="description">趁着春天还在，我是来找蝴蝶的。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhooker" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#向您的项目添加注解"><span class="nav-number">1.</span> <span class="nav-text">向您的项目添加注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加支持注解库依赖项"><span class="nav-number">1.1.</span> <span class="nav-text">添加支持注解库依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行代码检查"><span class="nav-number">1.2.</span> <span class="nav-text">运行代码检查</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nullness-注解"><span class="nav-number">2.</span> <span class="nav-text">Nullness 注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Nullability-分析"><span class="nav-number">2.1.</span> <span class="nav-text">Nullability 分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资源注解"><span class="nav-number">3.</span> <span class="nav-text">资源注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程注解"><span class="nav-number">4.</span> <span class="nav-text">线程注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#值约束注解"><span class="nav-number">5.</span> <span class="nav-text">值约束注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#权限注解"><span class="nav-number">6.</span> <span class="nav-text">权限注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间接权限"><span class="nav-number">7.</span> <span class="nav-text">间接权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值注解"><span class="nav-number">8.</span> <span class="nav-text">返回值注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CallSuper-注解"><span class="nav-number">9.</span> <span class="nav-text">CallSuper 注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Typedef-注解"><span class="nav-number">10.</span> <span class="nav-text">Typedef 注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#允许将常量与标志相结合"><span class="nav-number">10.1.</span> <span class="nav-text">允许将常量与标志相结合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码可访问性注解"><span class="nav-number">11.</span> <span class="nav-text">代码可访问性注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#另请参阅"><span class="nav-number">12.</span> <span class="nav-text">另请参阅</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">兰兰笑笑生</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhooker-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/04/22/转-使用注解改进代码检查/';
+          this.page.identifier = '2017/04/22/转-使用注解改进代码检查/';
+          this.page.title = '(转)使用注解改进代码检查';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhooker-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

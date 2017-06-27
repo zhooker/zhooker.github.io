@@ -1,0 +1,1238 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="程序优化,Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="UI相关 android:drawableLeft、android:drawableTop、android:drawableRight、android:drawableBottom 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用TextView.setTextView.s">
+<meta name="keywords" content="程序优化,Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发中容易忽略的类、方法、接口">
+<meta property="og:url" content="http://yoursite.com/2017/03/29/Android开发中容易忽略的类、方法、接口/index.html">
+<meta property="og:site_name" content="兰兰笑笑生">
+<meta property="og:description" content="UI相关 android:drawableLeft、android:drawableTop、android:drawableRight、android:drawableBottom 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用TextView.setTextView.s">
+<meta property="og:updated_time" content="2017-06-27T11:36:52.794Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android开发中容易忽略的类、方法、接口">
+<meta name="twitter:description" content="UI相关 android:drawableLeft、android:drawableTop、android:drawableRight、android:drawableBottom 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用TextView.setTextView.s">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/03/29/Android开发中容易忽略的类、方法、接口/"/>
+
+
+
+
+
+  <title>Android开发中容易忽略的类、方法、接口 | 兰兰笑笑生</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=57021224";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">兰兰笑笑生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/29/Android开发中容易忽略的类、方法、接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="兰兰笑笑生">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兰兰笑笑生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android开发中容易忽略的类、方法、接口</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-29T16:29:45+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/干货/" itemprop="url" rel="index">
+                    <span itemprop="name">干货</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/29/Android开发中容易忽略的类、方法、接口/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/03/29/Android开发中容易忽略的类、方法、接口/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="UI相关"><a href="#UI相关" class="headerlink" title="UI相关"></a>UI相关</h3><ul>
+<li><code>android:drawableLeft</code>、<code>android:drawableTop</code>、<code>android:drawableRight</code>、<code>android:drawableBottom</code> 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用<code>TextView.setTextView.setCompoundDrawablePadding</code>代码设置TextView的各个位置的drawable padding。</li>
+<li><a href="http%3A//developer.android.com/reference/android/widget/TextView.html%23setError%2528java.lang.CharSequence%2529">TextView.setError()</a> 在验证用户输入的时候很棒。</li>
+<li><a href="https://developer.android.com/reference/android/widget/TextView.html#append(java.lang.CharSequence" target="_blank" rel="external">TextView.append()</a>) 很有用的方法，用于为TextView添加显示内容。</li>
+<li><a href="http%3A//developer.android.com/reference/android/widget/Space.html">Space</a> Space是Android 4.0中新增的一个控件，它实际上可以用来分隔不同的控件，其中形成一个空白的区域.这是一个轻量级的视图组件，它可以跳过Draw，对于需要占位符的任何场景来说都是很棒的。</li>
+<li><a href="http%3A//developer.android.com/reference/android/view/ViewStub.html">ViewStub</a> 它是一个初始化不做任何事情的 View，但是之后可以载入一个布局文件。在慢加载 View 中很适合做占位符。唯一的缺点就是不支持标签，所以如果你不太小心的话，可能会在视图结构中加入不需要的嵌套。</li>
+<li><a href="http%3A//developer.android.com/training/improving-layouts/reusing-layouts.html%23Merge">Merge</a> 此标签可以在另一个布局文件中包含别的布局文件，而不用再新建一个 ViewGroup，对于自定义 ViewGroup 的时候也需要用到；可以通过载入一个带有标签的布局文件来自动定义它的子部件。</li>
+<li><code>android:clipChildren</code> 和 <code>android:clipToPadding</code>  clipToPadding就是说控件的绘制区域是否在padding里面的，true的情况下如果你设置了padding那么绘制的区域就往里 缩，clipChildren是指子控件是否超过padding区域，这两个属性默认是true的，所以在设置了padding情况下，默认滚动是在 padding内部的，要达到上面的效果主要把这两个属性设置了false那么这样子控件就能画到padding的区域了。使用场景如：ActionBar（透明）下显示Listview而第一项要在actionbar下。参见 <a href="http%3A//www.alloyteam.com/2014/10/androidcliptopadding-he-androidclipchildren/">android:clipToPadding和android:clipChildren</a>。</li>
+<li><a href="http%3A//developer.android.com/reference/android/widget/LinearLayout.html%23attr_android%3AweightSum">android:weightSum (LinearLayout)</a> 如果想使用 layout weights，但是却不想填充整个 LinearLayout 的话，就可以用 weightSum 来定义总的 weight 大小。</li>
+<li><a href="http%3A//developer.android.com/reference/android/view/View.html%23attr_android%3AduplicateParentState">android:duplicateParentState (View)</a> 此方法可以使得子 View 可以复制父 View 的状态。比如如果一个 ViewGroup 是可点击的，那么可以用这个方法在它被点击的时候让它的子 View 都改变状态。常见的使用场景是某些时候一个按钮很小，我们想要扩大其点击区域的时候通常会再给其包裹一层布局，将点击事件写到Parent上，这时候如果希望被包裹按钮的点击效果对应的Selector继续生效的话，这时候duplicateParentState就派上用场了。</li>
+<li><a href="http%3A//developer.android.com/reference/android/widget/ScrollView.html%23attr_android%3AfillViewport">android:fillViewport (ScrollView)</a> 在这片文章中有详细介绍<a href="http%3A//www.curious-creature.org/2010/08/15/scrollviews-handy-trick/">文章链接</a>，可以解决在 ScrollView 中当内容不足的时候填不满屏幕的问题。</li>
+<li><a href="http%3A//developer.android.com/guide/topics/resources/drawable-resource.html%23Bitmap">android:tileMode (BitmapDrawable)</a> 可以指定图片使用重复填充的模式。</li>
+<li><a href="http%3A//developer.android.com/reference/android/R.attr.html%23exitFadeDuration">android:enterFadeDuration/android:exitFadeDuration (Drawables)</a> 此属性在 Drawable 具有多种状态的时候，可以定义它展示前的淡入淡出效果。</li>
+</ul>
+<h3 id="视图操作相关"><a href="#视图操作相关" class="headerlink" title="视图操作相关"></a>视图操作相关</h3><ul>
+<li><code>AutoScrollHelper</code> 在可滚动视图中长按边缘实现滚动，<a href="http%3A//zhengxiaopeng.com/2015/04/26/Android-View-OnTouchListener-%25E7%259A%2584%25E5%25AD%2590%25E7%25B1%25BB/">Android View.OnTouchListener 的子类</a>。</li>
+<li><a href="https%3A//developer.android.com/reference/android/support/v4/widget/ViewDragHelper.html">ViewDragHelper</a> ——视图拖动是一个比较复杂的问题。这个类可以帮助解决不少问题。如果你需要一个例子，<a href="https%3A//developer.android.com/reference/android/support/v4/widget/DrawerLayout.html">DrawerLayout</a>就是利用它实现扫滑。Flavient Laurent 还写了一些关于这方面的<a href="http%3A//flavienlaurent.com/blog/2013/08/28/each-navigation-drawer-hides-a-viewdraghelper/">优秀文章</a>。</li>
+<li><a href="http%3A//developer.android.com/reference/android/view/ViewParent.htmlrequestDisallowInterceptTouchEvent%2528boolean%2529">ViewParent.requestDisallowInterceptTouchEvent()</a> Android系统触摸事件机制大多时候能够默认处理，不过有时候你需要使用这个方法来剥夺父级控件的控制权。</li>
+<li><a href="https%3A//developer.android.com/reference/android/view/View.htmlgenerateViewId%2528%2529">View.generateViewId()</a> 每次我都想要推荐动态生成控件的ID。需要注意的是，不要和已经存在的控件ID或者其他已经生成的控件ID重复。</li>
+<li>View类中的三个方法：<code>callOnClick()</code>，<code>performClick()</code>，<code>performLongClick()</code>，用于触发View的点击事件。</li>
+<li><code>TouchSlop</code> 系统所能识别出的被认为是最小的滑动距离，ViewConfiguration.get(context).getScaledTouchSlop()。</li>
+<li><code>VelocityTracker</code> 可用于 View 滑动事件速度跟踪。</li>
+</ul>
+<h3 id="系统相关"><a href="#系统相关" class="headerlink" title="系统相关"></a>系统相关</h3><ul>
+<li><a href="http%3A//developer.android.com/reference/android/app/ActivityManager.html%23getMemoryClass%28%29">ActivityManager.getMemoryClass()</a> 告诉你你的机器还有多少内存，在计算缓存大小的时候会比较有用。</li>
+<li><a href="https%3A//developer.android.com/reference/android/app/ActivityManager.htmlclearApplicationUserData%2528%2529">ActivityManager.clearApplicationUserData()</a> 一键清理你的app产生的用户数据，可能是做用户退出登录功能，有史以来最简单的方式了。</li>
+<li><a href="http%3A//developer.android.com/reference/android/app/Activity.html%23recreate%2528%2529">Activity.recreate ()</a> 强制让 Activity 重建。</li>
+<li><a href="http%3A//developer.android.com/reference/android/app/Activity.html%23onBackPressed%28%29">Activity.onBackPressed()</a> 很方便的管理back键的方法，有时候需要自己控制返回键的事件的时候，可以重写一下。比如加入 “点两下back键退出” 功能。</li>
+<li><a href="http%3A//developer.android.com/reference/android/content/Context.html%23getCacheDir%2528%2529">Context.getCacheDir()</a> 获取缓存数据文件夹的路径，这个路径通常在SD卡上<code>/data/您的应用程序包名/cache/</code> 下面。测试的时候,可以去这里面看是否缓存成功.缓存在这里的好处是:不用自己再去手动创建文件夹,不用担心用户把自己创建的文件夹删掉,在应用程序卸载的时候,这里会被清空,使用第三方的清理工具的时候,这里也会被清空。</li>
+<li><a href="https%3A//developer.android.com/reference/android/content/Context.htmlgetExternalFilesDir%2528java.lang.String%2529">Context.getExternalFilesDir()</a> 申请了SD卡写权限后，你可以在SD的任何地方写数据，把你的数据写在设计好的合适位置会更加有礼貌。这样数据可以及时被清理，也会有更好的用户体验。此外，Android 4.0 Kitkat中在这个文件夹下写数据是不需要权限的，每个用户有自己的独立的数据存储路径。</li>
+<li><a href="https%3A//developer.android.com/reference/android/os/Environment.html%23getExternalStoragePublicDirectory%2528java.lang.String%2529">Environment.getExternalStoragePublicDirectory()</a> 还是那句话，用户期望在SD卡上得到统一的用户体验。用这个方法可以获得在用户设备上放置指定类型文件（音乐、图片等）的正确目录。</li>
+<li><code>ActivityLifecycleCallbacks</code> 接口，用于在Application类中监听各Activity的状态变化。</li>
+<li><code>RemoteCallbackList</code>列表 ,在Service中可以监听client的进程是否退出，并自动删除。</li>
+<li><a href="http%3A//developer.android.com/reference/android/content/Context.htmlcreateConfigurationContext%2528android.%25E2%2580%2594%25E2%2580%2594ontent.res.Configuration%2529">Context.createConfigurationContext()</a> 自定义你的配置环境信息。我通常会遇到这样的问题：强制让一部分显示在某个特定的环境下（倒不是我一直这样瞎整，说来话长，你很难理解）。用这个实现起来可以稍微简单一点。</li>
+<li><a href="http%3A//developer.android.com/reference/android/content/pm/PackageManager.html%23checkSignatures%2528java.lang.String%2C%2520java.lang.String%2529">PackageManager.checkSignatures ()</a> 如果同时安装了两个 app 的话，可以用这个方法检查。如果不进行签名检查的话，其他人可以轻易通过使用一样的包名来模仿你的 app。</li>
+<li>Fragment 的 <code>setUserVisibleHint</code> 方法，可实现 fragment 对用户可见时才加载资源（延迟加载）, 在ViewPager中切换时特别有用。</li>
+<li><a href="http%3A//developer.android.com/reference/android/app/DialogFragment.html%23setShowsDialog%2528boolean%2529">DialogFragment.setShowsDialog()</a> 这是一个很巧妙的方式，DialogFragment 可以作为正常的 Fragment 显示！这里可以让 Fragment 承担双重任务。我通常在创建 Fragment 的时候把 onCreateView ()和 onCreateDialog ()都加上，就可以创建一个具有双重目的的 Fragment。</li>
+<li><a href="http%3A//developer.android.com/reference/android/app/FragmentManager.html%23enableDebugLogging%2528boolean%2529">FragmentManager.enableDebugLogging ()</a> 在需要观察 Fragment 状态的时候会有帮助。</li>
+<li><a href="http%3A//developer.android.com/reference/android/support/v4/content/LocalBroadcastManager.html">LocalBroadcastManager</a> 这个会比全局的 broadcast 更加安全，简单，快速。像 <a href="http%3A//square.github.io/otto/">otto</a> 这样的 Event buses 机制对你的应用场景更加有用。</li>
+<li><a href="http%3A//developer.android.com/guide/practices/screens_support.html%23qualifiers">-nodpi</a> 在没有特别定义的情况下，很多修饰符(-mdpi,-hdpi,-xdpi等等)都会默认自动缩放 assets/dimensions，有时候我们需要保持显示一致，这种情况下就可以使用 -nodpi。</li>
+<li><code>Resources</code>类中的<code>getIdentifier(name, defType, defPackage)</code>方法，根据资源名称获取其ID，做UI时经常用到。</li>
+</ul>
+<h3 id="工具类"><a href="#工具类" class="headerlink" title="工具类"></a>工具类</h3><ul>
+<li><a href="https://developer.android.com/reference/android/text/TextUtils.html" target="_blank" rel="external">TextUtils.isEmpty()</a> 简单的工具类,用于检测是否为空。</li>
+<li><a href="http%3A//developer.android.com/reference/android/database/DatabaseUtils.html">DatabaseUtils</a> 一个包含各种数据库操作的使用工具。</li>
+<li><a href="https%3A//developer.android.com/reference/android/media/ThumbnailUtils.html">ThumbnailUtils</a> 帮助创建缩略图。通常我都是用现有的图片加载库（比如，Picasso 或者 Volley），不过这个<code>ThumbnaiUtils</code>可以创建视频缩略图。</li>
+<li><a href="http%3A//developer.android.com/reference/android/text/format/DateUtils.html%23formatDateTime%2528android.content.Context%25EF%25BC%258C%2520long%25EF%25BC%258C%2520int%2529">DateUtils.formatDateTime()</a> 用来进行区域格式化工作，输出格式化和本地化的时间或者日期。</li>
+<li><a href="http%3A//developer.android.com/reference/android/telephony/PhoneNumberUtils.html%23formatNumber%2528java.lang.String%2529">PhoneNumberUtils.formatNumber ()</a> 顾名思义，这是对数字进行格式化操作的时候用的。</li>
+<li><a href="http%3A//developer.android.com/reference/android/text/util/Linkify.html%23addLinks%28android.text.Spannable%25EF%25BC%258C%2520int%29">Linkify.addLinks()</a> 在Text上添加链接。很实用。</li>
+<li><a href="http%3A//developer.android.com/reference/android/net/UrlQuerySanitizer.html">UrlQuerySanitizer</a> 使用这个工具可以方便对 URL 进行检查。</li>
+<li><a href="http%3A//developer.android.com/reference/android/text/format/Formatter.html%23formatFileSize%28android.content.Context%25EF%25BC%258C%2520long%29">Formatter.formatFileSize()</a> 一个区域化的文件大小格式化工具。通俗来说就是把大小转换为MB，G，KB之类的字符串。</li>
+</ul>
+<h3 id="集合类"><a href="#集合类" class="headerlink" title="集合类"></a>集合类</h3><ul>
+<li><code>ArrayMap</code>，比 HashMap 更高的内存效率，但比 HashMap 慢，不适合有大量数据的场景。</li>
+<li><a href="https%3A//developer.android.com/reference/android/util/SparseArray.html">SparseArray</a> Map的高效优化版本。推荐了解姐妹类<code>SparseBooleanArray</code>、<code>SparseIntArray</code>和<code>SparseLongArray</code>。</li>
+<li><code>Arrays</code>类中的一系列关于数组操作的工具方法：binarySearch()，asList()，equals()，sort()，toString()，copyOfRange()等；</li>
+<li><code>Collections</code>类中的一系列关于集合操作的工具方法：sort()，reverse()等；</li>
+</ul>
+<h3 id="常量类"><a href="#常量类" class="headerlink" title="常量类"></a>常量类</h3><ul>
+<li><a href="http%3A//developer.android.com/reference/android/os/Build.VERSION_CODES.html">Build.VERSION_CODES</a> 这个标明了当前的版本号,在处理兼容性问题的时候经常会用到.点进去可以看到各个版本的不同特性。</li>
+<li><code>Build.PRODUCT</code> 可以获取手机的项目名</li>
+<li><code>BuildConfig</code> 这个类声明了 DEBUG模式、包名、BUILD_TYPE、FLAVOR、VERSION_CODE、VERSION_NAME 等，在代码中可以直接使用，不用去检测apk信息。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.zhihu.com/question/33636939" target="_blank" rel="external">Android开发中，有哪些让你觉得相见恨晚的方法、类或接口？
+</a></li>
+<li><a href="http%3A//blog.danlew.net/2014/03/30/android-tips-round-up-part-1/">Android Tips Round-Up, Part 1</a></li>
+<li><a href="http%3A//blog.danlew.net/2014/04/14/android-tips-round-up-part-2/">Android Tips Round-Up, Part 2</a></li>
+<li><a href="http%3A//blog.danlew.net/2014/04/28/android-tips-round-up-part-3/">Android Tips Round-Up, Part 3</a></li>
+<li><a href="http%3A//blog.danlew.net/2014/05/12/android-tips-round-up-part-4/">Android Tips Round-Up, Part 4</a></li>
+<li><a href="http%3A//blog.danlew.net/2014/05/28/android-tips-round-up-part-5/">Android Tips Round-Up, Part 5</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/程序优化/" rel="tag"># 程序优化</a>
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/22/基于Kotlin实现的三种-RxBus/" rel="next" title="基于Kotlin实现的三种 RxBus">
+                <i class="fa fa-chevron-left"></i> 基于Kotlin实现的三种 RxBus
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/16/Java中容易出错的笔试题/" rel="prev" title="Java中容易出错的笔试题">
+                Java中容易出错的笔试题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/logo.png"
+               alt="兰兰笑笑生" />
+          <p class="site-author-name" itemprop="name">兰兰笑笑生</p>
+           
+              <p class="site-description motion-element" itemprop="description">趁着春天还在，我是来找蝴蝶的。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhooker" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#UI相关"><span class="nav-number">1.</span> <span class="nav-text">UI相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视图操作相关"><span class="nav-number">2.</span> <span class="nav-text">视图操作相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统相关"><span class="nav-number">3.</span> <span class="nav-text">系统相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工具类"><span class="nav-number">4.</span> <span class="nav-text">工具类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合类"><span class="nav-number">5.</span> <span class="nav-text">集合类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常量类"><span class="nav-number">6.</span> <span class="nav-text">常量类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number"></span> <span class="nav-text">参考</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">兰兰笑笑生</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhooker-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/03/29/Android开发中容易忽略的类、方法、接口/';
+          this.page.identifier = '2017/03/29/Android开发中容易忽略的类、方法、接口/';
+          this.page.title = 'Android开发中容易忽略的类、方法、接口';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhooker-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

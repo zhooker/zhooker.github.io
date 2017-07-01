@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript," />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -93,19 +93,29 @@
 
 
 
-<meta name="description" content="1. == 与 === 的区别== (equality 等同)两边值类型不同的时候，要先进行类型转换，再比较。=== (identity 恒等)不做类型转换，类型不同的一定不等。  “===”严格运算符的运算规则(1)不同类型值 : 如果两个值的类型不同，直接返回false。 (2)同一类的原始类型值 : 同一类型的原始类型的值（数值、字符串、布尔值）比较时，值相同就返回true，值不同就返回fa">
-<meta name="keywords" content="JavaScript">
+<meta name="description" content="关于LinearLayoutLinearLayout 在布局使用中比较频繁，一般可以设置成horizontal（横向）、vertical（竖向）两个方向，不过LinearLayout还有如下几个重要的属性，了解这几个属性可以让我们更加全面地认识linearLayout的真正功能。 1、weight 属性weight属性意思是占比，就是占用的空间的大小，其实它的真正意义是剩余空间的占比。比如我们添加">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[JavaScript基础] JavaScript中的判断">
-<meta property="og:url" content="http://yoursite.com/2016/10/25/JavaScript基础-JavaScript中的判断/index.html">
+<meta property="og:title" content="LinearLayout 中不得不说的几个重要属性">
+<meta property="og:url" content="http://yoursite.com/2017/06/17/LinearLayout-中不得不说的几个重要属性/index.html">
 <meta property="og:site_name" content="兰兰笑笑生">
-<meta property="og:description" content="1. == 与 === 的区别== (equality 等同)两边值类型不同的时候，要先进行类型转换，再比较。=== (identity 恒等)不做类型转换，类型不同的一定不等。  “===”严格运算符的运算规则(1)不同类型值 : 如果两个值的类型不同，直接返回false。 (2)同一类的原始类型值 : 同一类型的原始类型的值（数值、字符串、布尔值）比较时，值相同就返回true，值不同就返回fa">
-<meta property="og:image" content="https://i.stack.imgur.com/zETNR.png">
-<meta property="og:updated_time" content="2017-06-27T11:36:52.794Z">
+<meta property="og:description" content="关于LinearLayoutLinearLayout 在布局使用中比较频繁，一般可以设置成horizontal（横向）、vertical（竖向）两个方向，不过LinearLayout还有如下几个重要的属性，了解这几个属性可以让我们更加全面地认识linearLayout的真正功能。 1、weight 属性weight属性意思是占比，就是占用的空间的大小，其实它的真正意义是剩余空间的占比。比如我们添加">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-b9b47f9faae66cd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-67e151b938b22cc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-50dc2d1af6dd8c6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-c01481f7ca1f45e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-1c537a5568a90057.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-3864e867d9066951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-4634c7b8286564a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-58b05aa1c7c5c408.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-97a82ca222bf961a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-b23222f6709580e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1155837-3776bf5ce4071972.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-06-28T11:30:56.389Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[JavaScript基础] JavaScript中的判断">
-<meta name="twitter:description" content="1. == 与 === 的区别== (equality 等同)两边值类型不同的时候，要先进行类型转换，再比较。=== (identity 恒等)不做类型转换，类型不同的一定不等。  “===”严格运算符的运算规则(1)不同类型值 : 如果两个值的类型不同，直接返回false。 (2)同一类的原始类型值 : 同一类型的原始类型的值（数值、字符串、布尔值）比较时，值相同就返回true，值不同就返回fa">
-<meta name="twitter:image" content="https://i.stack.imgur.com/zETNR.png">
+<meta name="twitter:title" content="LinearLayout 中不得不说的几个重要属性">
+<meta name="twitter:description" content="关于LinearLayoutLinearLayout 在布局使用中比较频繁，一般可以设置成horizontal（横向）、vertical（竖向）两个方向，不过LinearLayout还有如下几个重要的属性，了解这几个属性可以让我们更加全面地认识linearLayout的真正功能。 1、weight 属性weight属性意思是占比，就是占用的空间的大小，其实它的真正意义是剩余空间的占比。比如我们添加">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1155837-b9b47f9faae66cd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -133,13 +143,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/10/25/JavaScript基础-JavaScript中的判断/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/17/LinearLayout-中不得不说的几个重要属性/"/>
 
 
 
 
 
-  <title>[JavaScript基础] JavaScript中的判断 | 兰兰笑笑生</title>
+  <title>LinearLayout 中不得不说的几个重要属性 | 兰兰笑笑生</title>
   
 
 
@@ -321,7 +331,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/25/JavaScript基础-JavaScript中的判断/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/17/LinearLayout-中不得不说的几个重要属性/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="兰兰笑笑生">
@@ -338,7 +348,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[JavaScript基础] JavaScript中的判断</h1>
+          <h1 class="post-title" itemprop="name headline">LinearLayout 中不得不说的几个重要属性</h1>
         
 
         <div class="post-meta">
@@ -350,8 +360,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-10-25T22:18:21+08:00">
-                2016-10-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-17T14:02:38+08:00">
+                2017-06-17
               </time>
             
 
@@ -391,9 +401,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/10/25/JavaScript基础-JavaScript中的判断/#comments" itemprop="discussionUrl">
+                <a href="/2017/06/17/LinearLayout-中不得不说的几个重要属性/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2016/10/25/JavaScript基础-JavaScript中的判断/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/06/17/LinearLayout-中不得不说的几个重要属性/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -401,7 +411,7 @@
 
           
           
-             <span id="/2016/10/25/JavaScript基础-JavaScript中的判断/" class="leancloud_visitors" data-flag-title="[JavaScript基础] JavaScript中的判断">
+             <span id="/2017/06/17/LinearLayout-中不得不说的几个重要属性/" class="leancloud_visitors" data-flag-title="LinearLayout 中不得不说的几个重要属性">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -429,39 +439,32 @@
       
 
       
-        <h3 id="1-与-的区别"><a href="#1-与-的区别" class="headerlink" title="1. == 与 === 的区别"></a>1. == 与 === 的区别</h3><p><code>==</code> (equality 等同)两边值类型不同的时候，要先进行类型转换，再比较。<br><code>===</code> (identity 恒等)不做类型转换，类型不同的一定不等。 </p>
-<h4 id="“-”严格运算符的运算规则"><a href="#“-”严格运算符的运算规则" class="headerlink" title="“===”严格运算符的运算规则"></a>“===”严格运算符的运算规则</h4><p>(1)不同类型值 : 如果两个值的类型不同，直接返回false。</p>
-<p>(2)同一类的原始类型值 : 同一类型的原始类型的值（数值、字符串、布尔值）比较时，值相同就返回true，值不同就返回false。</p>
-<p>(3)同一类的复合类型值 : 两个复合类型（对象、数组、函数）的数据比较时，不是比较它们的值是否相等，而是比较它们是否指向同一个对象。</p>
-<p>(4)undefined和null : undefined 和 null 与自身严格相等,它们互相比较时结果为false , 这是与<code>==</code>不同的地方。</p>
-<p>(5) NaN ：NaN与其它符号对比都返回false,判断两个NaN时返回的是false，所以只能用<code>isNaN</code>或<code>Object.is()</code>来判断</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">null === null  //true</div><div class="line">undefined === undefined  //true</div></pre></td></tr></table></figure>
-<p>当然，严格相等运算符 === 也不会对操作数进行类型转换，但是它会把 -0 和 +0 这两个数值视为相同的，还会把两个 NaN 看成是不相等的</p>
-<h4 id="“-”严格运算符的运算规则-1"><a href="#“-”严格运算符的运算规则-1" class="headerlink" title="“==”严格运算符的运算规则"></a>“==”严格运算符的运算规则</h4><p>“==”相等运算符在比较相同类型的数据时，与严格相等运算符完全一样。在比较不同类型的数据时，相等运算符会先将数据进行类型转换，然后再用严格相等运算符比较。类型转换规则如下：</p>
-<p>(1)原始类型的值 : 原始类型的数据会转换成数值类型再进行比较。字符串和布尔值都会转换成数值。基本类型的值转换成布尔型时的规则：<br>|数据类型|    转换成true的取值|    转换成false的取值|<br>|:-:|:-:|:-:|<br>Undefined|    无|    undefined|<br>Boolean|    true|    false|<br>Object|    非null时都为true|    null<br>Number|    非0和NaN时都为true|    0和NaN<br>String|非空字符串|    “”(空字符串)</p>
-<p>(2)对象与原始类型值比较 : 对象（这里指广义的对象，包括数值和函数）与原始类型的值比较时，对象转化成原始类型的值，再进行比较。对象转换成基础类型，利用它的toString或者valueOf方法。js核心内置类，会尝试valueOf先于toString；例外的是Date，Date利用的是toString转换。</p>
-<p>(3)undefined和null : undefined和null与其他类型的值比较时，结果都为false，它们互相比较时结果为true。</p>
-<p>(4)相等运算符的缺点 : 相等运算符隐藏的类型转换，会带来一些违反直觉的结果。</p>
-<p>(5) NaN ：NaN与其它符号对比都返回false,判断两个NaN时返回的是false，所以只能用<code>isNaN</code>或<code>Object.is()</code>来判断</p>
-<h3 id="2-Object-is"><a href="#2-Object-is" class="headerlink" title="2. Object.is()"></a>2. Object.is()</h3><p>用一个表达式来检查当前选择的元素集合，如果其中至少有一个元素符合这个给定的表达式就返回true。如果没有元素符合，或者表达式无效，都返回’false’。</p>
-<p>Object.is() 会在下面这些情况下认为两个值是相同的：</p>
+        <h2 id="关于LinearLayout"><a href="#关于LinearLayout" class="headerlink" title="关于LinearLayout"></a>关于LinearLayout</h2><p>LinearLayout 在布局使用中比较频繁，一般可以设置成horizontal（横向）、vertical（竖向）两个方向，不过LinearLayout还有如下几个重要的属性，了解这几个属性可以让我们更加全面地认识linearLayout的真正功能。</p>
+<h3 id="1、weight-属性"><a href="#1、weight-属性" class="headerlink" title="1、weight 属性"></a>1、weight 属性</h3><p>weight属性意思是占比，就是占用的空间的大小，其实它的真正意义是剩余空间的占比。比如我们添加两个TextView，其中的text1添加<code>android:layout_weight=&quot;1&quot;</code>，text2添加<code>android:layout_weight=&quot;2&quot;</code>，如下设置：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:orientation="horizontal"&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="1"</div><div class="line">        android:background="#FF0000"</div><div class="line">        android:text="text1" /&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="2"</div><div class="line">        android:background="#00FF00"</div><div class="line">        android:text="text2" /&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1155837-b9b47f9faae66cd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>结果会发现text2的宽度差不多是text1的两倍。假设每个text的宽度是120px , 那么在1080P的屏幕上，刚开始剩余空间是840px，text1的weight占1，text2的weight占2，所以text1的宽度是 120 + 840 / 3 = 400px，text2的宽度是 120 + 840 * 2 / 3 = 680px ，text2的宽度确实比text1大，这与程序运行结果一样。</p>
+<p>那么通过上面的示例，你是不是觉得weight越大占用的空间就越大呢？ 当然不是。如果我们把text1和text2都设置成<code>match_parent</code> 那会怎样呢 :<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:orientation="horizontal"&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="1"</div><div class="line">        android:background="#FF0000"</div><div class="line">        android:text="text1" /&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="match_parent"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="2"</div><div class="line">        android:background="#00FF00"</div><div class="line">        android:text="text2" /&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1155837-67e151b938b22cc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>结果显示text1的宽度比text2的还大，但是明明text1 的weight比text2的weight小阿，其实这和上面的计算方式一样的，一开始text1和text2都是<code>match_parent</code>，所以各占用1080px，那剩余空间是1080 - 1080<em>2 = -1080px ，是个负数。text1的weight是1，所以text1的宽度是 1080 + (-1080)/3 = 720px ，而text2的是weight是2，所以text2的宽度是 1080 + (-1080)</em> 2 / 3 = 360px ，所以text1的宽度比text2的还大。</p>
+<p>其实用<code>LinearLayout</code>+ <code>weight</code>可以代替一些<code>RelativeLayout</code>才能做的功能，比如我们要做一个自适应的布局，左右两个按钮，可以根据屏幕的大小适应，左按钮始终最左边，右按钮始终在最右边，像下面这样：<br><img src="http://upload-images.jianshu.io/upload_images/1155837-50dc2d1af6dd8c6c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br><img src="http://upload-images.jianshu.io/upload_images/1155837-c01481f7ca1f45e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>这是很常见的需求，这个小布局有多种实现方式 ：<br>第一种，最简单就是用<code>RelativeLayout</code>，设置<code>layout_alignParentLeft=&quot;true&quot;</code>与<code>layout_alignParentRight=&quot;true&quot;</code>就可以了。<br>第二种，也可以用<code>FrameLayout</code>，通过设置<code>layout_gravity</code>属性来实现，比如 :<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:orientation="horizontal"&gt;</div><div class="line">    &lt;Button</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:background="#FF0000"</div><div class="line">        android:layout_gravity="left"</div><div class="line">        android:text="左" /&gt;</div><div class="line">    &lt;Button</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:background="#00FF00"</div><div class="line">        android:layout_gravity="right"</div><div class="line">        android:text="右" /&gt;</div><div class="line">&lt;/FrameLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>上面代码也可以实现让两个控件位居左右并自适应屏幕。那么我们的LinearLayout是否也可以这样呢，在LinearLayout中设置<code>layout_gravity</code>是无效的，因为LinearLayout是线性的布局，必须从左到右或从上到下的顺序，要想位居左右必须有控件占满中间的部分，所以第三种方法就是利用<code>LinearLayout</code> + <code>Space</code>来实现 ：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:orientation="horizontal"&gt;</div><div class="line">    &lt;Button</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:background="#FF0000"</div><div class="line">        android:text="左" /&gt;</div><div class="line">    &lt;Space</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:layout_weight="1"</div><div class="line">        /&gt;</div><div class="line">    &lt;Button</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:background="#00FF00"</div><div class="line">        android:text="右" /&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>这代码巧妙的地方是利用Space设置weight为1来占满剩余空间，从而实现效果。</p>
+<h3 id="2、weightSum-属性"><a href="#2、weightSum-属性" class="headerlink" title="2、weightSum 属性"></a>2、weightSum 属性</h3><p>weightSum属性与weight属性有很大关系，通过weightSum控制weight的最大占比。比如我们这样设置 :<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:weightSum="3"</div><div class="line">    android:orientation="horizontal"&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="1"</div><div class="line">        android:background="#FF0000"</div><div class="line">        android:text="text1" /&gt;</div><div class="line">   </div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="1"</div><div class="line">        android:background="#00FF00"</div><div class="line">        android:text="text2" /&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1155837-1c537a5568a90057.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>text1与text2本来是一样的weight，可是结果它们都没有撑满屏幕。因为<code>weightSum=&quot;3&quot;</code>，也就是说text1、text2占用的宽度是 120 + 840 / 3 = 400px ,右边还有剩余280px。如果text1与text2的weight超过了weightSum会怎样，我们设置如下看看效果 :<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="match_parent"</div><div class="line">    android:weightSum="3"</div><div class="line">    android:orientation="horizontal"&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="2"</div><div class="line">        android:background="#FF0000"</div><div class="line">        android:text="text1" /&gt;</div><div class="line">    &lt;TextView</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:gravity="center"</div><div class="line">        android:layout_weight="2"</div><div class="line">        android:background="#00FF00"</div><div class="line">        android:text="text2" /&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1155837-3864e867d9066951.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>结果发现text2的文字快到屏幕外了，说明text2的宽度超出了屏幕。其实计算方式还是一样的，它们各占剩余空间的 2/3。我们上面说过text1与text2的宽度都是120px，剩余840，那么此时text1的宽度为 120 + 840 * 2 / 3 = 680px ，两个都是 680px，那text2当然被挤到屏幕外去了。<br><code>weightSum</code>属性可以用来控制weight属性占用剩余空间的比例。比如我们要做一个布局，一个按钮居中，它宽度是屏幕的一半，还要自适应屏幕，效果如下：<br><img src="http://upload-images.jianshu.io/upload_images/1155837-4634c7b8286564a7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>你怎么做？ 难道我们要在代码上通过获取屏幕宽度动态设置按钮的宽度吗？还是在xml布局上写死宽度，但是这样要在每个分辨率都适配一个宽度值 … No，No，No，这些方法都很low逼。我们可以利用<code>weightSum</code>属性，代码如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"</div><div class="line">    android:layout_width="match_parent"</div><div class="line">    android:layout_height="wrap_content"</div><div class="line">    android:gravity="center"</div><div class="line">    android:orientation="horizontal"</div><div class="line">    android:weightSum="2"&gt;</div><div class="line">    &lt;Button</div><div class="line">        android:layout_width="wrap_content"</div><div class="line">        android:layout_height="wrap_content"</div><div class="line">        android:layout_weight="1"</div><div class="line">        android:text="按钮" /&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure></p>
+<p>运行代码看到按钮半宽居中，自适应所有分辨率的屏幕，符合要求。注意LinearLayout中设置的<code>android:gravity=&quot;center&quot;</code>，它让子View居中放置。</p>
+<h3 id="3、divider-、showDividers-属性"><a href="#3、divider-、showDividers-属性" class="headerlink" title="3、divider 、showDividers 属性"></a>3、divider 、showDividers 属性</h3><p>以往我在设置分割线时，都是新增一个View，用来显示分割线，直到我发现在LinearLayout中添加分割线的新方法。LinearLayout显示分割线主要涉及divider 、showDividers 属性 ： <code>android:divider</code>用于设置分割线的样式，可以是xml的drawable也可以是图片。<code>android:showDividers = &quot;middle|end|beginning|none&quot;</code> 其每个选项的作用：</p>
 <ul>
-<li>两个值都是 undefined</li>
-<li>两个值都是 null</li>
-<li>两个值都是 true 或者都是 false</li>
-<li>两个值是由相同个数的字符按照相同的顺序组成的字符串</li>
-<li>两个值指向同一个对象</li>
-<li>两个值都是数字并且<ul>
-<li>都是正零 +0</li>
-<li>都是负零 -0</li>
-<li>都是 NaN</li>
-<li>都是除零和 NaN 外的其它同一个数字</li>
+<li>middle 在每一项中间添加分割线</li>
+<li>end 在整体的最后一项添加分割线</li>
+<li>beginning 在整体的最上方添加分割线</li>
+<li>none 不显示分割线</li>
 </ul>
-</li>
+<p>我们先创建一个custom.xml的drawable ，注意设置了宽高，不然是显示不出来的：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line">&lt;shape xmlns:android="http://schemas.android.com/apk/res/android"&gt;</div><div class="line">    &lt;solid android:color="@android:color/holo_red_light" /&gt;</div><div class="line">    &lt;size android:height="12dp" android:width="2dp"/&gt;</div><div class="line">&lt;/shape&gt;</div></pre></td></tr></table></figure></p>
+<p>设置成android:showDividers = “beginning”时：<br><img src="http://upload-images.jianshu.io/upload_images/1155837-58b05aa1c7c5c408.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>设置成android:showDividers = “end”时：<br><img src="http://upload-images.jianshu.io/upload_images/1155837-97a82ca222bf961a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>设置成android:showDividers = “middle”时：<br><img src="http://upload-images.jianshu.io/upload_images/1155837-b23222f6709580e4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>还可以组合设置 ，android:showDividers=”beginning|end|middle” ，显示结果：<br><img src="http://upload-images.jianshu.io/upload_images/1155837-3776bf5ce4071972.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>最后如果大家发现了什么的重要的属性或巧妙的用法，也可以一起交流哈。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="http://blog.csdn.net/bingshushu/article/details/51444206" target="_blank" rel="external"><a href="http://blog.csdn.net/bingshushu/article/details/51444206" target="_blank" rel="external"> 在 LinearLayout 添加分割线 divider</a></a></li>
+<li><a href="http://blog.csdn.net/xiaanming/article/details/13630837" target="_blank" rel="external">Layout_weight 完全解析</a></li>
 </ul>
-<p><code>Object.is()</code> 与 <code>===</code> 的区别  ： <code>Object.is()</code>对比两个NaN时返回true, <code>Object.is()</code>判断+0 -0时返回false , 而<code>===</code>则相反。</p>
-<h3 id="3-三个判断符号之间的区别"><a href="#3-三个判断符号之间的区别" class="headerlink" title="3. 三个判断符号之间的区别"></a>3. 三个判断符号之间的区别</h3><p><img src="https://i.stack.imgur.com/zETNR.png" alt="image"></p>
-<h3 id="4-例子："><a href="#4-例子：" class="headerlink" title="4.例子："></a>4.例子：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">&apos;&apos; == &apos;0&apos;           // false</div><div class="line">0 == &apos;&apos;             // true</div><div class="line">0 == &apos;0&apos;            // true</div><div class="line"></div><div class="line">false == &apos;false&apos;    // false</div><div class="line">false == &apos;0&apos;        // true</div><div class="line"></div><div class="line">false == undefined  // false</div><div class="line">false == null       // false</div><div class="line">null == undefined   // true</div><div class="line"></div><div class="line">&apos; \t\r\n &apos; == 0     // true</div><div class="line">这就是为什么建议尽量不要使用相等运算符。</div><div class="line"></div><div class="line">var a = undefined;</div><div class="line">if(!a)&#123;</div><div class="line">    console.log(&quot;1&quot;); //1</div><div class="line">&#125;</div><div class="line">var a = undefined;</div><div class="line">if(a == null)&#123;</div><div class="line">    console.log(&quot;1&quot;); //1</div><div class="line">&#125;</div><div class="line">var a = undefined;</div><div class="line">if(a === null)&#123;</div><div class="line">    console.log(&quot;1&quot;); //无输出</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">Object.is(&apos;foo&apos;, &apos;foo&apos;);     // true</div><div class="line">Object.is(window, window);   // true</div><div class="line"></div><div class="line">Object.is(&apos;foo&apos;, &apos;bar&apos;);     // false</div><div class="line">Object.is([], []);           // false</div><div class="line"></div><div class="line">var test = &#123; a: 1 &#125;;</div><div class="line">Object.is(test, test);       // true</div><div class="line"></div><div class="line">Object.is(null, null);       // true</div><div class="line"></div><div class="line">// 特例</div><div class="line">Object.is(0, -0);            // false</div><div class="line">Object.is(-0, -0);           // true</div><div class="line">Object.is(NaN, 0/0);         // true</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -491,7 +494,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            <a href="/tags/Android/" rel="tag"># Android</a>
           
         </div>
       
@@ -504,8 +507,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/20/用JavaScript生成Loading效果/" rel="next" title="用JavaScript生成Loading效果">
-                <i class="fa fa-chevron-left"></i> 用JavaScript生成Loading效果
+              <a href="/2017/04/22/转-使用注解改进代码检查/" rel="next" title="(转)使用注解改进代码检查">
+                <i class="fa fa-chevron-left"></i> (转)使用注解改进代码检查
               </a>
             
           </div>
@@ -513,10 +516,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/11/05/JavaScript基础-闭包/" rel="prev" title="[JavaScript基础]  闭包 ">
-                [JavaScript基础]  闭包  <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -678,7 +677,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-与-的区别"><span class="nav-number">1.</span> <span class="nav-text">1. == 与 === 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#“-”严格运算符的运算规则"><span class="nav-number">1.1.</span> <span class="nav-text">“===”严格运算符的运算规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#“-”严格运算符的运算规则-1"><span class="nav-number">1.2.</span> <span class="nav-text">“==”严格运算符的运算规则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Object-is"><span class="nav-number">2.</span> <span class="nav-text">2. Object.is()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-三个判断符号之间的区别"><span class="nav-number">3.</span> <span class="nav-text">3. 三个判断符号之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-例子："><span class="nav-number">4.</span> <span class="nav-text">4.例子：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于LinearLayout"><span class="nav-number">1.</span> <span class="nav-text">关于LinearLayout</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、weight-属性"><span class="nav-number">1.1.</span> <span class="nav-text">1、weight 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、weightSum-属性"><span class="nav-number">1.2.</span> <span class="nav-text">2、weightSum 属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、divider-、showDividers-属性"><span class="nav-number">1.3.</span> <span class="nav-text">3、divider 、showDividers 属性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -810,9 +809,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2016/10/25/JavaScript基础-JavaScript中的判断/';
-          this.page.identifier = '2016/10/25/JavaScript基础-JavaScript中的判断/';
-          this.page.title = '[JavaScript基础] JavaScript中的判断';
+          this.page.url = 'http://yoursite.com/2017/06/17/LinearLayout-中不得不说的几个重要属性/';
+          this.page.identifier = '2017/06/17/LinearLayout-中不得不说的几个重要属性/';
+          this.page.title = 'LinearLayout 中不得不说的几个重要属性';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://zhooker-github-io.disqus.com/embed.js';

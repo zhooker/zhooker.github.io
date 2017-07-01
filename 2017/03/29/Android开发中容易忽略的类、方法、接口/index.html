@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android,程序优化," />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -86,7 +86,7 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+  <link rel="shortcut icon" type="image/x-icon" href="/uploads/logo.png?v=5.1.1" />
 
 
 
@@ -94,13 +94,13 @@
 
 
 <meta name="description" content="UI相关 android:drawableLeft、android:drawableTop、android:drawableRight、android:drawableBottom 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用TextView.setTextView.s">
-<meta name="keywords" content="Android,程序优化">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android开发中容易忽略的类、方法、接口">
 <meta property="og:url" content="http://yoursite.com/2017/03/29/Android开发中容易忽略的类、方法、接口/index.html">
 <meta property="og:site_name" content="兰兰笑笑生">
 <meta property="og:description" content="UI相关 android:drawableLeft、android:drawableTop、android:drawableRight、android:drawableBottom 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用TextView.setTextView.s">
-<meta property="og:updated_time" content="2017-06-27T11:36:52.794Z">
+<meta property="og:updated_time" content="2017-07-01T13:39:47.119Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android开发中容易忽略的类、方法、接口">
 <meta name="twitter:description" content="UI相关 android:drawableLeft、android:drawableTop、android:drawableRight、android:drawableBottom 可以设置显示图片的位置，一般我们需要一个LinearLayout + ImageView + TextView 才能实现的效果 ，TextView用这属性就能实现了。还可以用TextView.setTextView.s">
@@ -399,6 +399,17 @@
 
           
           
+             <span id="/2017/03/29/Android开发中容易忽略的类、方法、接口/" class="leancloud_visitors" data-flag-title="Android开发中容易忽略的类、方法、接口">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
           
 
@@ -519,8 +530,6 @@
           
             <a href="/tags/Android/" rel="tag"># Android</a>
           
-            <a href="/tags/程序优化/" rel="tag"># 程序优化</a>
-          
         </div>
       
 
@@ -629,7 +638,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -651,7 +660,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -670,6 +679,15 @@
                     <i class="fa fa-fw fa-github"></i>
                   
                   GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/e5eb557a207b" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  简书
                 </a>
               </span>
             
@@ -727,17 +745,6 @@
   <span class="author" itemprop="copyrightHolder">兰兰笑笑生</span>
 </div>
 
-
-<div class="powered-by">
-  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
 
 
         
@@ -1201,6 +1208,113 @@
 
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Jk7wAF8otkP6eSY2LWTx8PaW-gzGzoHsz", "abNtLVang8SHTh8rmEAEAu09");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 

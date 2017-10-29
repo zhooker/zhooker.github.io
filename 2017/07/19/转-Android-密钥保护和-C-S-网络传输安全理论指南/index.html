@@ -1,0 +1,1327 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/uploads/logo.png?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="前言这篇文章Android安全方面很清晰易懂，在此转载，原文链接 正文注：本文将着重讲解 Android KeyStore、so 库保护 app key / secret、HTTPS 原理及其防中间人攻击措施。 谈到 Android 安全性话题，Android Developers 官方网站给出了许多很好的建议和讲解，涵盖了存储数据、权限、网络、处理凭据、输入验证、处理用户数据、加密等方方面面，甚">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[转]Android 密钥保护和 C&#x2F;S 网络传输安全理论指南">
+<meta property="og:url" content="http://yoursite.com/2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/index.html">
+<meta property="og:site_name" content="兰兰笑笑生">
+<meta property="og:description" content="前言这篇文章Android安全方面很清晰易懂，在此转载，原文链接 正文注：本文将着重讲解 Android KeyStore、so 库保护 app key / secret、HTTPS 原理及其防中间人攻击措施。 谈到 Android 安全性话题，Android Developers 官方网站给出了许多很好的建议和讲解，涵盖了存储数据、权限、网络、处理凭据、输入验证、处理用户数据、加密等方方面面，甚">
+<meta property="og:updated_time" content="2017-07-30T05:32:28.835Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[转]Android 密钥保护和 C&#x2F;S 网络传输安全理论指南">
+<meta name="twitter:description" content="前言这篇文章Android安全方面很清晰易懂，在此转载，原文链接 正文注：本文将着重讲解 Android KeyStore、so 库保护 app key / secret、HTTPS 原理及其防中间人攻击措施。 谈到 Android 安全性话题，Android Developers 官方网站给出了许多很好的建议和讲解，涵盖了存储数据、权限、网络、处理凭据、输入验证、处理用户数据、加密等方方面面，甚">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/"/>
+
+
+
+
+
+  <title>[转]Android 密钥保护和 C/S 网络传输安全理论指南 | 兰兰笑笑生</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=57021224";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">兰兰笑笑生</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="兰兰笑笑生">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兰兰笑笑生">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[转]Android 密钥保护和 C/S 网络传输安全理论指南</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T16:29:45+08:00">
+                2017-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/干货/" itemprop="url" rel="index">
+                    <span itemprop="name">干货</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/" class="leancloud_visitors" data-flag-title="[转]Android 密钥保护和 C/S 网络传输安全理论指南">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>这篇文章Android安全方面很清晰易懂，在此转载，<a href="http://drakeet.me/android-security-guide/" target="_blank" rel="external">原文链接</a></p>
+<h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>注：本文将着重讲解 Android KeyStore、so 库保护 app key / secret、HTTPS 原理及其防中间人攻击措施。</p>
+<p>谈到 Android 安全性话题，Android Developers 官方网站给出了许多很好的建议和讲解，涵盖了存储数据、权限、网络、处理凭据、输入验证、处理用户数据、加密等方方面面，甚至对于动态加载代码也提供了建议，具体可以看看 training 的 security tips 章节。而今天，我想特别来讲一讲在 Android 密钥保护和 C/S 网络传输安全 这两方面的具体安全措施。</p>
+<p>密钥的保护以及网络传输安全 应该是移动应用安全最关键的内容。</p>
+<p>所谓的密钥，简单来说，可以认为是我们常用的 app key / secret / token 或数据加密的 key，这些 keys 就像我们宝库的钥匙，一旦泄露，就像大门被人撬开，什么安全都无从谈起。因此，密钥们的安全存储、防窃取便显得异常重要。我曾经看过许多国内外著名的应用在使用自家 API 或 SaaS 服务的时候，在 Java 代码或 SharePreferences 里明文记录着 app key / secret / token，这样的做法，就算使用了 proguard 对代码进行混淆，也是非常容易被逆向获得服务端接入密钥，非常危险。</p>
+<p>在这一方面，Android 提供大量用来保护数据的加密算法，例如 Cipher 类中提供了 AES 和 RSA 算法，再例如安全随机数生成器 SecureRandom 给 KeyGenerator 提供了更加可靠的初始化参数，避免离线攻击等等。</p>
+<p>而如果需要存储密钥以供重复使用，Android 提供了 KeyStore 等可以长期存储和检索加密密钥的机制，Android KeyStore 系统特别适合于存储加密密钥。”AndroidKeyStore” 是 KeyStore 的一个子集，存进 AndroidKeyStore 的 key 将受到签名保护，并且这些 key 是存在系统里的，而不是在 App 的 data 目录下，依托于硬件的 KeyChain 存储，可以做到 private key 一旦存入就无法取出，总之，每个 App 自己创建的 key，别的应用是访问不到的。</p>
+<p>很多时候，我们会需要将用户的账号密码或 token 存储下来，以做到下次打开免登的目的。<br>KeyStore 提供了两个能力：</p>
+<ul>
+<li>生成随机加密密钥</li>
+<li>安全存储和读取数据</li>
+</ul>
+<p>有了这两个能力，我们的密钥保护就变得很容易了，你只需要：</p>
+<ul>
+<li>在应用安装后第一次运行时，生成一个随机密钥，并存入 KeyStore</li>
+<li>当你想存储一个数据，便从 KeyStore 中取出之前生成的随机密钥，对你的数据进行加密，加密完成后，已完成加密的数据可以随意存储在任意地方，比如 SharePreferences，此时即使它被他人读取到，也无法解密出你的原数据，因为他人取不到你的密钥</li>
+<li>当你需要拿到你的原数据，只需要从 SharePreferences 中读取你加密后的数据，并从 KeyStore 取出加密密钥，使用加密密钥对 “加密后的数据” 进行解密即可</li>
+</ul>
+<p>其中加密算法可以使用 Cipher AES 来保证安全性，不要使用自己创造的加密算法。<br>这就是使用 KeyStore 的一整套流程，另外 KeyStore 还可以用来做数据签名和签名验证，就像一个黑匣子一样，具体可以自行搜索了解。</p>
+<p>KeyStore 适用于生成和存储密钥，这些密钥可以用来加密运行时获取到的数据，比如运行时，用户输入的密码，或者服务端传下来的 token。但对于需要预设在 App 内的 API key / secret，因为 KeyStore 是运行时随机生成加密密钥，所以我们无法预估API key / secret 会被加密成什么样，自然也就无法预先把加密后的 API key / secret 预埋在 App 内，因此对于这类需要预设的固定密钥，我将介绍另外一种十分安全、难破解的保护方式。</p>
+<p>首先我们需要思考，这个 key 应该放到哪里才能够最大限度提升其被逆向获取的难度，放 Java 代码里？根本不安全。放文件或图片像素里？顶多续 1 小时。放 so 库里？可以，so 库能够很大程度提升逆向破解难度，但如果别人把 so 库文件拿出来，再直接调用这些 native 接口，便也可以获取到你的 key，怎么办？</p>
+<p>我的做法是在 so 库的 C 代码里<code>JNI_OnLoad()</code>方法对 APK 签名进行验证，如果签名不对，直接 crash，这样移植出去便和砖头没什么两样。而你的应用又不得不依赖这个 so 库进行获取 API key / secret，因此它又不能直接剥离，这就保证了不能没有它，又不能移植它，换句话说就是：如果别人反编译了你的代码，发现你使用 so 进行签名验证，便直接把这个 so 文件摘掉，这样做的结果是，App 获取不到你存在 so 中的 secret 了，便无法正常工作了；而如果别人对你的应用进行修改和重新签名，或移植你的 so 库来读取内部的 secret，则会因为签名验证不通过直接自爆。</p>
+<p>以上便是对于保护 key / secret 的一些有效举措，再总结下就是，使用 so 库存储预设 key / secret，使用 Android KeyStore 存储运行时动态获取到的私密内容。</p>
+<p>而另一方面，对网络传输进行加密、防中间人攻击也是至关重要的，如果你的密钥保护得很好，但数据却在网络传输过程中被拦截篡改，那也是前功尽弃。</p>
+<p>如果使用 HTTP，对于 API 请求参数会变的请求，一般都会进行参数防篡改校验，和参数加密，客户端和服务端会约定一个固定的密钥作为加密的 key，这个 key 便属于上面我们讲过的需要预设在 App 代码里的，因此比较安全的做法就是将它埋藏在 so 库里。</p>
+<p>但更推荐、更简单的做法是，使用 HTTPS，HTTPS 是 HTTP 的安全版本，为什么这么说呢？因为HTTPS 自带加密、验签、检查数据完整性等功能，它在 HTTP 下加入了 SSL (Secure Socket Layer)，SSL 位于 TCP/IP 和 HTTP 协议之间，负责加密、验签、检查数据完整性工作。</p>
+<p>HTTPS 的握手过程中能够确立客户端与服务端双方加密传输数据的密码信息，流程大致如下：</p>
+<ul>
+<li>客户端将自己支持的加密算法类型和检验数据完整性的 HASH 算法类型告诉服务端</li>
+<li>服务端从客户端传上来的加密算法中选出一种支持的类型，用于生成一对非对称密钥对，并将自己的证书发给客户端，证书中将带有这对非对称密钥的公钥和证书颁发机构、过期时间等。其中所谓的非对称加密及其公钥和密钥，如果不懂，可以简单理解为：这是一种加密算法，私钥加密的内容只有公钥才能解密，反之公钥加密的内容只有私钥才能解密，以此来保证两端信息的安全性。</li>
+<li>客户端获得证书后，会对证书的合法性进行检验，如果证书合法，则客户端将随机生成一对称加密的密钥，并使用服务端给的非对称加密密钥对这个对称加密密钥进行加密，并生成 HASH 值，统一发给服务端。所谓对称加密及其密钥，简单说：这是一种加密算法，加密和解密使用的密钥是一样的。</li>
+<li>服务端拿到信息后，使用私钥进行解密取出对称加密的密钥，并验证 HASH 值。验证无误后，使用这个对称加密密钥对握手信息进行加密，发给客户端。</li>
+<li>客户端解密和 HASH 验证，无误则握手成功完成。接下来所有的通讯都会使用这个已经同步到两端的对称加密密钥进行加密通讯。而一旦这个握手过程中有任何错误，都会中止握手过程，请求的参数和内容传输是在这些过程之后，因此若是握手过程出错，则不会发送请求内容。</li>
+</ul>
+<p>但是，尽管有了以上机制来保证端与端之间通信的安全，仍然无法保证安全，因为防不住中间人攻击，也就是说，如果有个中间人横跨在你的客户端与服务端之间，你以为你在和服务端握手，但实际上是在与这个中间人握手，这个中间人将持有你目标服务端的公钥，以及它自己产生的密钥和公钥，然后把它自己产生的公钥交给你，你以为你拿到手的是服务端直接给你的公钥，因此这个中间人能够解密你的所有请求。<br>你的客户端 &lt;–&gt; Packet Capture/Charles（VPN 或 Wi-Fi 或代理，它们都算中间人） &lt;–&gt; 你的目标服务器</p>
+<p>关于这个话题，我回答过一个 StackOverflow 问题，提问者不明白<a href="http://stackoverflow.com/questions/40093004/how-do-you-encrypt-hide-the-body-of-an-https-call-using-retrofit-2-okhttp-3" target="_blank" rel="external"><strong>为什么他使用了 HTTPS，结果一个叫做 Packet Capture 的抓包工具居然还能获取到他的请求内容</strong></a>。实际上原理就是因为这个中间人替换掉了服务端的证书。</p>
+<p>解决办法就是客户端要对服务端传下来的证书是否正确进行验证，如果使用 OkHttp 的话，可以预设服务端证书的 pining 值，通过 OkHttp Builder 的 certificatePinner 方法进行设置，非常简单。如此设置之后，一旦证书被替换掉，便与你预设的证书 pinning 不对等，握手过程就会中止，请求数据根本不会传输出去，这样中间人也就获取不到你的请求内容了。</p>
+<p>除了设置 certificatePinner 的方法之外，还可以把服务端的证书的拷贝 完整地放在客户端一份，等服务端传下来的时候，对本地证书进行对比，若不对等，则抛出错误。对于 OkHttp，可以使用 OkHttpClient.Builder()<br>.sslSocketFactory(sslContext.getSocketFactory()) 来给它传递你的证书。</p>
+<p>这么做以后，便可以防止网络传输过程中中间人获取你的加密信息。整个应用的基础安全措施也就到此实施结束了。值得一提的是，对于 HTTPS，很多人存在误解，以为 GET 请求是不安全的，POST 才是安全的，实际上，不仅仅 GET 的参数内容会被加密，你的 header、body 等等都是会被加密，都是安全的。</p>
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><ul>
+<li><a href="https://github.com/square/okhttp/wiki/HTTPS" target="_blank" rel="external">OkHttp HTTPS wiki</a></li>
+<li><a href="https://developer.android.com/training/best-security.html?hl=zh-cn" target="_blank" rel="external">Android Developers 安全性和隐私权最佳实践</a></li>
+<li><a href="http://stackoverflow.com/questions/40093004/how-do-you-encrypt-hide-the-body-of-an-https-call-using-retrofit-2-okhttp-3" target="_blank" rel="external">How do you encrypt / hide the body of an HTTPS call using Retrofit 2 + OkHttp 3?</a></li>
+<li><a href="https://medium.com/@ericfu/securely-storing-secrets-in-an-android-application-501f030ae5a3#.rxgc43gzt" target="_blank" rel="external">Securely Storing Secrets in an Android Application</a></li>
+<li><a href="http://blog.csdn.net/lmj623565791/article/details/48129405" target="_blank" rel="external">当 OkHttp 遇到 Https(已过时，但里面很多原理很不错，关于 OkHttp 与 HTTPS 建议直接阅读第一个链接官方 wiki，非常可靠)</a></li>
+<li><a href="https://github.com/scottyab/androidkeystore" target="_blank" rel="external">Android KeyStore helper(一个很方便好用的开源库，作者还有很多很棒的加密相关开源产品)</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/01/RxJava2-中容易混淆的函数/" rel="next" title="RxJava2 中容易混淆的函数">
+                <i class="fa fa-chevron-left"></i> RxJava2 中容易混淆的函数
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/01/如何确定一个链表中有闭环/" rel="prev" title="如何确定一个链表中有闭环?">
+                如何确定一个链表中有闭环? <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/logo.png"
+               alt="兰兰笑笑生" />
+          <p class="site-author-name" itemprop="name">兰兰笑笑生</p>
+           
+              <p class="site-description motion-element" itemprop="description">趁着春天还在，我是来找蝴蝶的。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhooker" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/u/e5eb557a207b" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#正文"><span class="nav-number">2.</span> <span class="nav-text">正文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相关链接"><span class="nav-number">3.</span> <span class="nav-text">相关链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">兰兰笑笑生</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhooker-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/';
+          this.page.identifier = '2017/07/19/转-Android-密钥保护和-C-S-网络传输安全理论指南/';
+          this.page.title = '[转]Android 密钥保护和 C/S 网络传输安全理论指南';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhooker-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Jk7wAF8otkP6eSY2LWTx8PaW-gzGzoHsz", "abNtLVang8SHTh8rmEAEAu09");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

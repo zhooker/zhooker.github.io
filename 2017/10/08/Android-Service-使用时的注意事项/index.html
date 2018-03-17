@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。 startService / bindService 混合使用 每一次调用 startService 都会回调onStartCommand，之后调用了stopService之后就会 destroy Service。即使有多个client启动服务，那调用一次stopServi">
+<meta name="description" content="最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。 Service 与 Thread的关系 Service 是系统组件，继承于 Context，可以方便调用Android其它组件，比如广播，Activity等；而Thread是 java类。 Service可以跨进程调用，比如AIDL远程服务，而Thread不行。 Servi">
 <meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android Service 使用时的注意事项">
+<meta property="og:title" content="深入理解 Service">
 <meta property="og:url" content="http://yoursite.com/2017/10/08/Android-Service-使用时的注意事项/index.html">
 <meta property="og:site_name" content="兰兰笑笑生">
-<meta property="og:description" content="最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。 startService / bindService 混合使用 每一次调用 startService 都会回调onStartCommand，之后调用了stopService之后就会 destroy Service。即使有多个client启动服务，那调用一次stopServi">
-<meta property="og:updated_time" content="2017-10-29T12:09:44.679Z">
+<meta property="og:description" content="最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。 Service 与 Thread的关系 Service 是系统组件，继承于 Context，可以方便调用Android其它组件，比如广播，Activity等；而Thread是 java类。 Service可以跨进程调用，比如AIDL远程服务，而Thread不行。 Servi">
+<meta property="og:updated_time" content="2018-01-31T12:38:44.514Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android Service 使用时的注意事项">
-<meta name="twitter:description" content="最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。 startService / bindService 混合使用 每一次调用 startService 都会回调onStartCommand，之后调用了stopService之后就会 destroy Service。即使有多个client启动服务，那调用一次stopServi">
+<meta name="twitter:title" content="深入理解 Service">
+<meta name="twitter:description" content="最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。 Service 与 Thread的关系 Service 是系统组件，继承于 Context，可以方便调用Android其它组件，比如广播，Activity等；而Thread是 java类。 Service可以跨进程调用，比如AIDL远程服务，而Thread不行。 Servi">
 
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>Android Service 使用时的注意事项 | 兰兰笑笑生</title>
+  <title>深入理解 Service | 兰兰笑笑生</title>
   
 
 
@@ -336,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android Service 使用时的注意事项</h1>
+          <h1 class="post-title" itemprop="name headline">深入理解 Service</h1>
         
 
         <div class="post-meta">
@@ -399,7 +399,7 @@
 
           
           
-             <span id="/2017/10/08/Android-Service-使用时的注意事项/" class="leancloud_visitors" data-flag-title="Android Service 使用时的注意事项">
+             <span id="/2017/10/08/Android-Service-使用时的注意事项/" class="leancloud_visitors" data-flag-title="深入理解 Service">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -428,6 +428,11 @@
 
       
         <p> 最近有个项目刚好使用了Service，特别是AIDL远程服务，经过这次项目对Service有了更好的理解，在这里作个总结。</p>
+<h3 id="Service-与-Thread的关系"><a href="#Service-与-Thread的关系" class="headerlink" title="Service 与 Thread的关系"></a>Service 与 Thread的关系</h3><ul>
+<li>Service 是系统组件，继承于 Context，可以方便调用Android其它组件，比如广播，Activity等；而Thread是 java类。</li>
+<li>Service可以跨进程调用，比如AIDL远程服务，而Thread不行。</li>
+<li>Service可以在后台运行，在后台运行时可以提高进程优先级为服务进程 ，减少被回收的几率；而Thread 进入后台就会变成后台进程或空进程，随时有可能被系统回收。</li>
+</ul>
 <h3 id="startService-bindService-混合使用"><a href="#startService-bindService-混合使用" class="headerlink" title="startService / bindService 混合使用"></a>startService / bindService 混合使用</h3><ul>
 <li>每一次调用 startService 都会回调onStartCommand，之后调用了stopService之后就会 destroy Service。即使有多个client启动服务，那调用一次stopService 就能 destroy Service 。通过这种方式还有一个好处就是Service可以通过调用 stopSelf 主动退出。</li>
 <li>第一次调用bindService 的时候才会回调 onBind，如果有多个client连接服务，在最后一个client调用unbindService时才会回调 onUnbind，并destroy Service。</li>
@@ -450,13 +455,46 @@
 </ul>
 <h3 id="AIDL的接口如何升级？"><a href="#AIDL的接口如何升级？" class="headerlink" title="AIDL的接口如何升级？"></a>AIDL的接口如何升级？</h3><p>在做一个比较大型的项目，那项目会不断迭代，那就有可能增加、修改AIDL接口，那如何保证AIDL接口和老的接口不会混乱呢，根据我的经验有如下总结：</p>
 <ul>
-<li>对于增删参数的接口：AIDL函数的访问会检测参数，Client有参数的接口可以调用Service的接口（不管有无参数），反过来，Client的接口没参数就只能调用Service没有参数的接口。比如我们的新接口定义函数添加了参数，那client必须同时或提前修改，不然我们发布了新接口的Service应用，Client就不能调用了，但是Client用新接口是可以去访问老接口的服务的。</li>
-<li>对于增删函数的接口：服务端增加函数并不影响客户端，相反客户端增加服务端没有的接口就会访问无效果，如果客户端增加接口有返回值就返回默认值。</li>
+<li>对于增删接口的情况。服务端增加函数并不影响客户端，相反客户端增加服务端没有的接口就会访问无效果，如果客户端增加接口有返回值就返回默认值。</li>
+<li>对于接口增删参数的情况。因为AIDl是基于BInder实现数据传递的，而Binder是通过 Parcel 来传输对象的，所以Client与Server之间的参数传递依赖于参数的顺序，但是如果Client不传参数，Server有参数就会去Binder读取，结果读取出来就会是null，并且报错。参数有无对应关系如下：</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">Server接口有参数</th>
+<th style="text-align:center">Server接口无参数</th>
+<th style="text-align:center">Server接口增加参数</th>
+<th style="text-align:center">Server接口减少参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client接口有参数</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">√</td>
+</tr>
+<tr>
+<td>Client接口无参数</td>
+<td style="text-align:center">Χ（报错）</td>
+<td style="text-align:center">√</td>
+<td style="text-align:center">/</td>
+<td style="text-align:center">/</td>
+</tr>
+</tbody>
+</table>
 <h3 id="Service管理多个客户端"><a href="#Service管理多个客户端" class="headerlink" title="Service管理多个客户端"></a>Service管理多个客户端</h3><p>如果Service有多个客户端，如何安全地与它们通信呢？如何给各个客户端回调结果呢？ 在这里我要说说我在最近项目出现的一个问题，我在项目中要做一个公共的服务，类似于指纹解锁，其它应用通过调用我的服务来获取结果，我设计了start(callback), stop()两个接口，一开始我就用单回调的方式，即在代码中定义一个callback的属性，谁调用了start就把callback设置成谁，只有最后一个调用start的Client能够获得回调，代码如下 ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> Callbak mCallback;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(Callback callback)</span> </span>&#123;</div><div class="line">     <span class="keyword">this</span>.mCallback = callback;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</div><div class="line">     <span class="keyword">this</span>.mCallback = <span class="keyword">null</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>这种方式，在单个应用时是很有效的，在多个应用时，只要应用能按顺序执行start、stop 那这个接口的设计也没什么问题。但是事情没想象中那么简单，如果Client1调用了start，跟着Client2也调用了start，这时Client1 要stop，那会怎样，那整个服务都stop了。这个就是我设计的服务中出现的大问题，之后我想着为我的服务接口作一些改变，以适应这种多应用的不按顺序的调用 。我第一个想法就是用register、unregister的方式，用一个list收集所有的callback ，回调时可以轮循，stop时也可以通过判断list的个数，如果是小于等于1，那就执行stop ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> List&lt;Callbak&gt; mCallbacks;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(Callback callback)</span> </span>&#123;</div><div class="line">     mCallbacks.add(callback);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">(Callback callback)</span> </span>&#123;</div><div class="line">     mCallbacks.remove(callback);</div><div class="line">     <span class="keyword">if</span>(list.size() &gt;= <span class="number">1</span>)</div><div class="line">          <span class="keyword">return</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>考虑到接口的升级，这个改动是最小的，只给stop添加了一个参数。但是这个方式也有毛病，我们服务对Callback的引用是强引用，如果Client异常退出了，那引用还在并且会越积越多，在回调的时候，也可能出现DeadObjectException的错误。通过网络查找资料，我找到了RemoteCallbackList，RemoteCallbackList也是一个列表，保存的是回调接口，使用<a href="http://developer.android.com/reference/android/os/Binder.html#linkToDeath" target="_blank" rel="external"><strong>Link-To-Death</strong></a>回调 （在Sevice中接受到这个Binder对象，并且使用 binder.linkToDeath()，注册一个DeathRecipient回调；实现DeathRecipient。当Client意外退出的时候，DeathRecipient.binderDied()将被回调，我们可以在这里释放相关的资源。）。最终代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> RemoteCallbackList&lt;Callback&gt; mCallbacks = <span class="keyword">new</span> RemoteCallbackList&lt;&gt;();</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">(Callback callback)</span> </span>&#123;</div><div class="line">     mCallbacks.register(callback);</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">(Callback callback)</span> </span>&#123;</div><div class="line">     mCallbacks.unregister(callback);</div><div class="line">     <span class="keyword">if</span>(mCallbacks.getBroadcastItem() &gt;= <span class="number">1</span>)</div><div class="line">          <span class="keyword">return</span>;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">notifyResult</span><span class="params">(String result)</span> </span>&#123; </div><div class="line">  <span class="keyword">final</span> <span class="keyword">int</span> len = mCallbacks.beginBroadcast();</div><div class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</div><div class="line">       <span class="keyword">try</span> &#123;</div><div class="line">            mCallbacks.getBroadcastItem(i).onResult(result);</div><div class="line">       &#125; <span class="keyword">catch</span> (RemoteException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">       &#125;</div><div class="line">  &#125;</div><div class="line">  mCallbacks.finishBroadcast();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="使用Messenger-实现-Servie与Client端通信"><a href="#使用Messenger-实现-Servie与Client端通信" class="headerlink" title="使用Messenger 实现 Servie与Client端通信"></a>使用Messenger 实现 Servie与Client端通信</h3><p>Messenger是基于Handler的，通过为Messenger添加Handler来传递处理数据，之后Service与Client的通信都是通过传递的Handler来进行。用这种方式可以不需要定义AIDL接口，也就不出现因为修改AIDl接口所造成的接口版本不对应的麻烦。<br>Messenger的使用就是通过 Handler传递消息， 客户端send方法发送的是一个Message，这个Message.replyTo指向的是一个Messenger，Messenger又持有客户端的一个Binder对象（MessengerImpl），服务端正是利用这个Binder对象做的与客户端的通信。</p>
+<h3 id="如何判断Client-Server端已经断开"><a href="#如何判断Client-Server端已经断开" class="headerlink" title="如何判断Client/Server端已经断开"></a>如何判断Client/Server端已经断开</h3><p>程序运行可能因为系统原因进程意外退出，比如内存不足，程序RuntimeException。但是Binder对端可能不知道意外退出，如果此时再调用接口可能会发生异常。我们可以通过三种方式来检测远程对象是否存活：</p>
+<ul>
+<li>调用远程方法的时候捕获RemoteException(DeadObjectException)。</li>
+<li>调用IBinder的pingBinder()进行检测。pingBinder()方法会返回当前远程服务的状态（true|false）</li>
+<li>实现IBinder.DeathRecipient接口回调。实现了IBinder.DeathRecipient接口的参数调用linkToDeath()方法，可以在binderDied的回调方法中处理中断逻辑。前面说的RemoteCallbackList类就是通过这种方式。</li>
+</ul>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a href="https://race604.com/communicate-with-remote-service-3/" target="_blank" rel="external">RemoteCallbackList类使用方法</a></li>
 <li><a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="external">Android 基于Message的进程间通信 Messenger完全解析</a></li>
@@ -600,7 +638,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -677,7 +715,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#startService-bindService-混合使用"><span class="nav-number">1.</span> <span class="nav-text">startService / bindService 混合使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为服务添加权限"><span class="nav-number">2.</span> <span class="nav-text">为服务添加权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于AIDL远程服务"><span class="nav-number">3.</span> <span class="nav-text">关于AIDL远程服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL的接口如何升级？"><span class="nav-number">4.</span> <span class="nav-text">AIDL的接口如何升级？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service管理多个客户端"><span class="nav-number">5.</span> <span class="nav-text">Service管理多个客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Messenger-实现-Servie与Client端通信"><span class="nav-number">6.</span> <span class="nav-text">使用Messenger 实现 Servie与Client端通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Service-与-Thread的关系"><span class="nav-number">1.</span> <span class="nav-text">Service 与 Thread的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#startService-bindService-混合使用"><span class="nav-number">2.</span> <span class="nav-text">startService / bindService 混合使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为服务添加权限"><span class="nav-number">3.</span> <span class="nav-text">为服务添加权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于AIDL远程服务"><span class="nav-number">4.</span> <span class="nav-text">关于AIDL远程服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AIDL的接口如何升级？"><span class="nav-number">5.</span> <span class="nav-text">AIDL的接口如何升级？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Service管理多个客户端"><span class="nav-number">6.</span> <span class="nav-text">Service管理多个客户端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Messenger-实现-Servie与Client端通信"><span class="nav-number">7.</span> <span class="nav-text">使用Messenger 实现 Servie与Client端通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何判断Client-Server端已经断开"><span class="nav-number">8.</span> <span class="nav-text">如何判断Client/Server端已经断开</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -700,7 +738,7 @@
         <div class="copyright" >
   
   &copy;  2016 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -811,7 +849,7 @@
         var disqus_config = function () {
           this.page.url = 'http://yoursite.com/2017/10/08/Android-Service-使用时的注意事项/';
           this.page.identifier = '2017/10/08/Android-Service-使用时的注意事项/';
-          this.page.title = 'Android Service 使用时的注意事项';
+          this.page.title = '深入理解 Service';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://zhooker-github-io.disqus.com/embed.js';

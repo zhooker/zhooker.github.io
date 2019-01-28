@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Android," />
+  <meta name="keywords" content="JetPack," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="ASCII码ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套计算机编码系统。它主要用于显示现代英语，一共定义了 128 个字符，其中33个字符无法显示（一些终端提供了扩展，使得这些字符可显示为诸如笑脸、扑克牌花式等8-bit符号），且这33个字符多数都已是陈废的控制字符。例如大写的字母 A">
-<meta name="keywords" content="Android">
+<meta name="description" content="LiveData是一个可以感知Activity、Fragment生命周期的数据容器。当LiveData所持有的数据发生改变时，它会通知相应的观察者进行数据更新。由于Activity、Fragment都已实现LifecycleOwner接口，所以持有LifecycleOwner引用的LiveData在LifecycleOwner的生命周期处于started或paused时可以作出相应更新，而在Lif">
+<meta name="keywords" content="JetPack">
 <meta property="og:type" content="article">
-<meta property="og:title" content="浅谈Unicode编码格式和代码中的应用">
-<meta property="og:url" content="http://yoursite.com/2018/12/10/浅谈Unicode编码格式和代码中的应用/index.html">
+<meta property="og:title" content="JetPack 之 LiveData">
+<meta property="og:url" content="http://yoursite.com/2018/10/29/JetPack-之-LiveData/index.html">
 <meta property="og:site_name" content="兰">
-<meta property="og:description" content="ASCII码ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套计算机编码系统。它主要用于显示现代英语，一共定义了 128 个字符，其中33个字符无法显示（一些终端提供了扩展，使得这些字符可显示为诸如笑脸、扑克牌花式等8-bit符号），且这33个字符多数都已是陈废的控制字符。例如大写的字母 A">
-<meta property="og:updated_time" content="2019-01-28T15:14:33.697Z">
+<meta property="og:description" content="LiveData是一个可以感知Activity、Fragment生命周期的数据容器。当LiveData所持有的数据发生改变时，它会通知相应的观察者进行数据更新。由于Activity、Fragment都已实现LifecycleOwner接口，所以持有LifecycleOwner引用的LiveData在LifecycleOwner的生命周期处于started或paused时可以作出相应更新，而在Lif">
+<meta property="og:updated_time" content="2019-01-28T15:45:23.478Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="浅谈Unicode编码格式和代码中的应用">
-<meta name="twitter:description" content="ASCII码ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套计算机编码系统。它主要用于显示现代英语，一共定义了 128 个字符，其中33个字符无法显示（一些终端提供了扩展，使得这些字符可显示为诸如笑脸、扑克牌花式等8-bit符号），且这33个字符多数都已是陈废的控制字符。例如大写的字母 A">
+<meta name="twitter:title" content="JetPack 之 LiveData">
+<meta name="twitter:description" content="LiveData是一个可以感知Activity、Fragment生命周期的数据容器。当LiveData所持有的数据发生改变时，它会通知相应的观察者进行数据更新。由于Activity、Fragment都已实现LifecycleOwner接口，所以持有LifecycleOwner引用的LiveData在LifecycleOwner的生命周期处于started或paused时可以作出相应更新，而在Lif">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/12/10/浅谈Unicode编码格式和代码中的应用/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/29/JetPack-之-LiveData/"/>
 
 
 
 
 
-  <title>浅谈Unicode编码格式和代码中的应用 | 兰</title>
+  <title>JetPack 之 LiveData | 兰</title>
   
 
 
@@ -319,7 +319,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/10/浅谈Unicode编码格式和代码中的应用/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/29/JetPack-之-LiveData/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="兰兰笑笑生">
@@ -336,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">浅谈Unicode编码格式和代码中的应用</h1>
+          <h1 class="post-title" itemprop="name headline">JetPack 之 LiveData</h1>
         
 
         <div class="post-meta">
@@ -348,8 +348,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-10T11:43:19+08:00">
-                2018-12-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-29T15:39:15+08:00">
+                2018-10-29
               </time>
             
 
@@ -389,9 +389,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/10/浅谈Unicode编码格式和代码中的应用/#comments" itemprop="discussionUrl">
+                <a href="/2018/10/29/JetPack-之-LiveData/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/12/10/浅谈Unicode编码格式和代码中的应用/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/10/29/JetPack-之-LiveData/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -399,7 +399,7 @@
 
           
           
-             <span id="/2018/12/10/浅谈Unicode编码格式和代码中的应用/" class="leancloud_visitors" data-flag-title="浅谈Unicode编码格式和代码中的应用">
+             <span id="/2018/10/29/JetPack-之-LiveData/" class="leancloud_visitors" data-flag-title="JetPack 之 LiveData">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -427,111 +427,43 @@
       
 
       
-        <h3 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h3><p>ASCII（American Standard Code for Information Interchange，美国信息交换标准代码）是基于拉丁字母的一套计算机编码系统。它主要用于显示现代英语，一共定义了 128 个字符，其中33个字符无法显示（一些终端提供了扩展，使得这些字符可显示为诸如笑脸、扑克牌花式等8-bit符号），且这33个字符多数都已是陈废的控制字符。例如大写的字母 A 是 <code>65</code>（这是十进制数，对应二进制是<code>0100 0001</code>）。</p>
-<p>ASCII的局限在于只能显示26个基本拉丁字母、阿拉伯数目字和英式标点符号，因此只能用于显示现代美国英语（而且在处理英语当中，即使会违反拼写规则，外来词如naïve、café、élite等等时，所有重音符号都必须去掉）。虽然EASCII解决了部分西欧语言的显示问题，但对更多其他语言依然无能为力。因此，现在的软件系统大多采用<a href="https://zh.wikipedia.org/wiki/Unicode" title="Unicode" target="_blank" rel="external">Unicode</a>。</p>
-<h3 id="Unicode码"><a href="#Unicode码" class="headerlink" title="Unicode码"></a>Unicode码</h3><p>Unicode（中文：万国码、国际码、统一码、单一码）是计算机科学领域里的一项业界标准。它对世界上大部分的文字系统进行了整理、编码，使得计算机可以用更为简单的方式来呈现和处理文字。</p>
-<p>Unicode早期版本中，CJK统一汉字区的范围是<code>0x4E00-0x9FA5</code>，包含20902个汉字。后来增加了22个字符，码位是<code>0x9FA6-0x9FBB</code>。所以我们在百度判断中文的<br>代码一般都是判断在 <code>0x4E00-0x9FA5</code> 的范围内，这是不完全正确的，因为在最新的Unicode 5.0的99089个字符中，有71226个字符与汉字有关，包括了很多兼容汉字和扩充汉字，对于多语言版本的APP可能要注意这些。</p>
-<p>Unicode 没有规定字符对应的二进制码如何存储。比如汉字“中”，它的 Unicode 码点是 <code>0x4E2D</code>，对应的二进制数是 <code>100111000101101</code>，二进制数有 15 位，这也就说明了它至少需要 2 个字节来表示。还有字母“A”，Unicode 码点是 <code>0x0041</code>，对应的二进制数是 <code>0100 0001</code>，二进制数有8位，用1个字节就可以表示了。</p>
-<p>那么计算机是如何知道1个字节表示一个字符还是2个字节表示一个字符呢？也许有人会觉得可以用Unicode 中最大的字符用 4 字节来表示每一个字符，但是这样肯定会造成了空间的极大浪费，如果是一个英文文档，那文件大小就大出了 3 倍多了。为了解决 Unicode 的编码问题， UTF-8 和 UTF-16 两种当前比较流行的编码方式诞生了。</p>
-<h4 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h4><p>UTF-8 是目前互联网上使用最广泛的一种 Unicode 编码方式，它的最大特点就是可变长。它可以使用 1 - 4 个字节表示一个字符，根据字符的不同变换长度。编码规则如下：</p>
-<ul>
-<li>对于单个字节的字符，第一位设为 0，后面的 7 位对应这个字符的 Unicode 码点。因此，对于英文中的 0 - 127 号字符，与 ASCII 码完全相同。这意味着 ASCII 码那个年代的文档用 UTF-8 编码打开完全没有问题。</li>
-<li>对于需要使用 N 个字节来表示的字符（N &gt; 1），第一个字节的前 N 位都设为 1，第 N + 1 位设为0，剩余的 N - 1 个字节的前两位都设位 10，剩下的二进制位则使用这个字符的 Unicode 码点来填充。</li>
+        <p><code>LiveData</code>是一个可以感知Activity、Fragment生命周期的数据容器。当<code>LiveData</code>所持有的数据发生改变时，它会通知相应的观察者进行数据更新。由于Activity、Fragment都已实现<code>LifecycleOwner</code>接口，所以持有<code>LifecycleOwner</code>引用的<code>LiveData</code>在<code>LifecycleOwner</code>的生命周期处于<code>started</code>或<code>paused</code>时可以作出相应更新，而在<code>LifecycleOwner</code>处于被销毁时停止更新。</p>
+<h3 id="LiveData-的优点"><a href="#LiveData-的优点" class="headerlink" title="LiveData 的优点"></a>LiveData 的优点</h3><ul>
+<li><strong>保证UI状态和数据的统一</strong><br><code>LiveData</code>采用了观察者设计模式。当生命周期状态改变时，<code>LiveData</code>会通知<code>Observer</code>对象。每次应用程序数据更改时，都会通知观察者对象，从而更新UI。</li>
+<li><strong>减少内存泄漏</strong><br><code>LiveData</code>能够感知到组件的生命周期，观察者绑定到生命周期对象，并在其相关生命周期被破坏后自行清理。</li>
+<li><strong>当Activity停止时不会引起崩溃</strong><br>这是因为组件处于非激活状态时，不会收到<code>LiveData</code>中数据变化的通知</li>
+<li><strong>不需要额外的手动处理来响应生命周期的变化</strong><br>这一点同样是因为<code>LiveData</code>能够感知组件的生命周期，所以就完全不需要在代码中告诉<code>LiveData</code>组件的生命周期状态。</li>
+<li><strong>组件和数据相关的内容能实时更新</strong><br>组件在前台的时候能够实时收到数据改变的通知，这是可以理解的。当组件从后台到前台来时，<code>LiveData</code>能够将最新的数据通知组件，这两点就保证了组件中和数据相关的内容能够实时更新。</li>
+<li><strong>资源共享</strong><br>通过继承<code>LiveData</code>类，然后将该类定义成单例模式，在该类封装监听一些系统属性变化，然后通知<code>LiveData</code>的观察者</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>码点的位数</th>
-<th>码点起值</th>
-<th>码点终值</th>
-<th>字节序列</th>
-<th>Byte 1</th>
-<th>Byte 2</th>
-<th>Byte 3</th>
-<th>Byte 4</th>
-<th>Byte 5</th>
-<th>Byte 6</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>  7</td>
-<td>U+0000</td>
-<td>U+007F</td>
-<td>1</td>
-<td>0xxxxxxx  </td>
-</tr>
-<tr>
-<td>11</td>
-<td>U+0080</td>
-<td>U+07FF</td>
-<td>2</td>
-<td>110xxxxx</td>
-<td>10xxxxxx </td>
-</tr>
-<tr>
-<td>16</td>
-<td>U+0800</td>
-<td>U+FFFF</td>
-<td>3</td>
-<td>1110xxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td></td>
-</tr>
-<tr>
-<td>21</td>
-<td>U+10000</td>
-<td>U+1FFFFF</td>
-<td>4</td>
-<td>11110xxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-</tr>
-<tr>
-<td>26</td>
-<td>U+200000</td>
-<td>U+3FFFFFF</td>
-<td>5</td>
-<td>111110xx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-</tr>
-<tr>
-<td>31</td>
-<td>U+4000000</td>
-<td>U+7FFFFFFF</td>
-<td>6</td>
-<td>1111110x</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-<td>10xxxxxx</td>
-</tr>
-</tbody>
-</table>
-<p>根据上面编码规则对照表，就很容易进行 UTF-8 编码和解码。以汉字“中”为例，“中”的 Unicode 码点是 <code>0x4E2D</code>（<code>100 1110 0010 1101</code>），通过上面的对照表可以发现，<code>0x0000 4E2D</code> 位于第三行的范围，那么得出其格式为 <code>1110xxxx 10xxxxxx 10xxxxxx</code>。接着，从“中”的二进制数最后一位开始，从后向前依次填充对应格式中的 x，多出的 x 用 0 补上。这样，就得到了“汉”的 UTF-8 编码为 <code>11100100 10111000 10101101</code>，转换成十六进制就是 <code>0xE4 0xB8 0xAD</code>。</p>
-<p>解码的过程也十分简单：如果一个字节的第一位是 0 ，则说明这个字节对应一个字符；如果一个字节的第一位1，那么连续有多少个 1，就表示该字符占用多少个字节，知道了该字符占用N个字节就可以篇历后面以10开头的N个字符，最终解析出该字符。</p>
-<h4 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h4><p>Unicode的编码空间从U+0000到U+10FFFF，共有 <code>2^17</code> 个码位可用来映射字符. Unicode的编码空间可以划分为17个平面（plane），每个平面包含<code>2^16</code>（65,536）个码位。17个平面的码位可表示为从U+xx0000到U+xxFFFF，其中xx表示十六进制值从<code>0x00</code>到<code>0x10</code>，共计17个平面。第一个平面称为基本多语言平面（Basic Multilingual Plane, BMP），或称第零平面（Plane 0）。其他平面称为辅助平面（Supplementary Planes）。</p>
-<p>基本平面（BMP）的字符位共有 <code>2^16</code> 个，从U+0000到U+FFFF，包含了最常用的字符。其中从 U+D800 到 U+DFFF 是一个空段，即这些码点不对应任何字符。因此，这个空段可以用来映射辅助平面的字符。</p>
-<p>辅助平面（Supplementary Planes）的字符位共有 <code>2^20</code> 个，从U+10000到U+10FFFF，因此表示这些字符至少需要 20 个二进制位。UTF-16 将这 20 个二进制位分成两半，前 10 位映射在 U+D800 到 U+DBFF，称为高位（H），后 10 位映射在 U+DC00 到 U+DFFF，称为低位（L）。这意味着，一个辅助平面的字符，被拆成两个基本平面的字符表示。</p>
-<p>因此，当我们遇到两个字节，发现它的码位在 U+D800 到 U+DBFF 之间，就可以断定，紧跟在后面的两个字节的码位，应该在 U+DC00 到 U+DFFF 之间，这四个字节必须放在一起解读。</p>
-<p>以汉字”𠮷”为例，汉字”𠮷”的 Unicode 码点为 <code>0x20BB7</code>，该码点显然超出了基本平面的范围（<code>0x0000 - 0xFFFF</code>），因此需要使用四个字节表示。首先用 <code>0x20BB7 - 0x10000 = 0x10BB7</code> 计算出超出的部分，然后将其用 20 个二进制位表示（不足前面补 0 ），结果为<code>0001000010 1110110111</code>。接着，将前 10 位映射到 U+D800 到 U+DBFF 之间，后 10 位映射到 U+DC00 到 U+DFFF 即可。前10位是<code>0001000010</code>，对应十六进制是<code>0x42</code>，映射到U+D800后就是 <code>0xD842</code>，同理后10位是<code>1110110111</code>，对应十六进制是<code>0x03B7</code>，映射到U+DC00 后就是  <code>0xDFB7</code>。因此得出汉字”𠮷”的 UTF-16 编码为 <code>0xD842 0xDFB7</code>。</p>
-<h3 id="代码中处理Unicode码"><a href="#代码中处理Unicode码" class="headerlink" title="代码中处理Unicode码"></a>代码中处理Unicode码</h3><p>java默认是使用UTF-16编码处理字符的，很多字符处理的函数都定义在<code>Character</code>类中，以上文中的汉字“中”、“𠮷”为例，获取字符的码位 ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">val str = <span class="string">"中"</span> <span class="comment">// str.length = 1</span></div><div class="line">val str2 = <span class="string">"𠮷"</span> <span class="comment">// str2.length = 2</span></div><div class="line"></div><div class="line"><span class="comment">// 获取码位 ：</span></div><div class="line">println(Character.codePointAt(str, <span class="number">0</span>).toString(<span class="number">16</span>)) <span class="comment">// 4E2D</span></div><div class="line">println(Character.codePointAt(str2, <span class="number">0</span>).toString(<span class="number">16</span>)) <span class="comment">// 20BB7</span></div></pre></td></tr></table></figure></p>
-<p>打印结果与预想的一致，我们也可以用<code>Character. charCount</code>来判断一个码位占用的字符数，通过上方分析可知汉字”𠮷”占用四个字节，这里要注意函数名是<code>charCount</code>，说明计算的是char的数量，一个char占两个字节，所以”𠮷”的 <code>Character.charCount</code> 打印的是2，而 “中”的 <code>Character.charCount</code> 打印的是1。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 判断字符字符数</span></div><div class="line">println(Character.charCount(Character.codePointAt(<span class="string">"中"</span>, <span class="number">0</span>))) <span class="comment">// 1</span></div><div class="line">println(Character.charCount(Character.codePointAt(<span class="string">"𠮷"</span>, <span class="number">0</span>))) <span class="comment">// 2</span></div></pre></td></tr></table></figure></p>
-<p>那么<code>Character</code>这个类又是怎样知道一个字符占两个字节还是四个字节呢？我们看看<code>Character.charCount</code> 函数的源码 ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Character.java</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_SUPPLEMENTARY_CODE_POINT = <span class="number">0x010000</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">charCount</span><span class="params">(<span class="keyword">int</span> codePoint)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> codePoint &gt;= MIN_SUPPLEMENTARY_CODE_POINT ? <span class="number">2</span> : <span class="number">1</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>从中可以发现 ，当码位大于等于<code>0x010000</code>时就是2个char（四个字节），否则是1个char（两个字节）,而通过上文分析我们知道码位大于等于<code>0x010000</code>就是在辅助平面，这时候是由一个高位和一个低位组合的，在辅助平面上的字符至少占用四个字节，我们可以打印汉字”𠮷”的每一个char ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="string">"中"</span>.map &#123;</div><div class="line">    String.format(<span class="string">"%x "</span>, it.toInt()).toUpperCase()</div><div class="line">&#125;.reduce &#123; acc, s -&gt;</div><div class="line">    acc + s</div><div class="line">&#125;.run &#123;</div><div class="line">    println(<span class="keyword">this</span>) <span class="comment">// 4E2D</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="string">"𠮷"</span>.map &#123;</div><div class="line">    String.format(<span class="string">"%x "</span>, it.toInt()).toUpperCase()</div><div class="line">&#125;.reduce &#123; acc, s -&gt;</div><div class="line">    acc + s</div><div class="line">&#125;.run &#123;</div><div class="line">    println(<span class="keyword">this</span>) <span class="comment">// D842 DFB7</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>通过打印结果，可知汉字”中”的UTF-16就是<code>0x4E2D</code>，汉字”𠮷”的UTF-16就是<code>0xD842 0xDFB7</code>。另外，<code>Character</code>也提供了两个函数来判断一个字符是高位还是低位，因为“中”由两个字节组成，不需要高位低位，所以<code>Character.isHighSurrogate</code>、<code>Character.isLowSurrogate</code>均打印false。 ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">    <span class="comment">// 判断高位、低位 ：</span></div><div class="line">    <span class="string">"中"</span>.forEachIndexed &#123; index, c -&gt;</div><div class="line">        println(<span class="string">"中[$index] isHighSurrogate =  $&#123;Character.isHighSurrogate(c)&#125; , isLowSurrogate =  $&#123;Character.isLowSurrogate(c)&#125;"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="string">"𠮷"</span>.forEachIndexed &#123; index, c -&gt;</div><div class="line">        println(<span class="string">"𠮷[$index] isHighSurrogate =  $&#123;Character.isHighSurrogate(c)&#125; , isLowSurrogate =  $&#123;Character.isLowSurrogate(c)&#125;"</span>)</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="comment">//    打印结果 ： </span></div><div class="line"><span class="comment">//    中[0] isHighSurrogate =  false , isLowSurrogate =  false</span></div><div class="line"><span class="comment">//    𠮷[0] isHighSurrogate =  true , isLowSurrogate =  false</span></div><div class="line"><span class="comment">//    𠮷[1] isHighSurrogate =  false , isLowSurrogate =  true</span></div></pre></td></tr></table></figure></p>
-<p>另外如果我们要把UTF-16编码转化成UTF-8编码，可以这样做 ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// UTF-16转化成UTF-8编码 ：</span></div><div class="line"><span class="string">"中"</span>.toByteArray().map &#123;</div><div class="line">    String.format(<span class="string">"%x "</span>, it).toUpperCase()</div><div class="line">&#125;.reduce &#123; acc, s -&gt;</div><div class="line">    acc + s</div><div class="line">&#125;.run &#123;</div><div class="line">    println(<span class="keyword">this</span>) <span class="comment">// E4 B8 AD</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="string">"𠮷"</span>.toByteArray().map &#123;</div><div class="line">    String.format(<span class="string">"%x "</span>, it).toUpperCase()</div><div class="line">&#125;.reduce &#123; acc, s -&gt;</div><div class="line">    acc + s</div><div class="line">&#125;.run &#123;</div><div class="line">    println(<span class="keyword">this</span>) <span class="comment">// F0 A0 AE B7 </span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>通过打印结果，可知汉字”𠮷”的UTF-8就是<code>0xE4 0xB8 0xAD</code>，汉字”𠮷”的UTF-8就是<code>0xF0 0xA0 0xAE 0xB7</code> 。同理把UTF-8编码也可以转化成UTF-16编码，如下所示：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// UTF-8转化成UTF-16编码 ：</span></div><div class="line">val bytes1 = byteArrayOf(<span class="number">0xE4</span>.toByte(), <span class="number">0xB8</span>.toByte(), <span class="number">0xAD</span>.toByte())</div><div class="line">println(String(bytes1, Charset.forName(<span class="string">"utf-8"</span>))) <span class="comment">// "中"</span></div><div class="line"></div><div class="line">val bytes2 = byteArrayOf(<span class="number">0xF0</span>.toByte(), <span class="number">0xA0</span>.toByte(), <span class="number">0xAE</span>.toByte(), <span class="number">0xB7</span>.toByte())</div><div class="line">println(String(bytes2, Charset.forName(<span class="string">"utf-8"</span>))) <span class="comment">// "𠮷"</span></div></pre></td></tr></table></figure></p>
-<p>我们可以直接用<code>\u</code>的前缀来显示一个UTF-16编码，从而直接打印我们所要的字符，比如汉字”中”的UTF-16就是<code>0x4E2D</code>，汉字”𠮷”的UTF-16就是<code>0xD842 0xDFB7</code>，我们可以直接用<code>\u4E2D</code>来打印“中”，用<code>\uD842\uDFB7</code>来打印“𠮷”，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">println(<span class="string">"\u4E2D"</span>) <span class="comment">// "中"</span></div><div class="line">println(<span class="string">"\uD842\uDFB7"</span>) <span class="comment">// "𠮷"</span></div></pre></td></tr></table></figure></p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本文介绍了ASCII码，但是ASCII只能最多表示128个字符，所以有了Unicode编码，Unicode编码有多种编码格式，比较流行的有UTF-8和UTF-16。UTF-8使用 1 - 4 个字节表示一个字符，而UTF-16则通过高位、低位的形式来表示Unicode所有平面的字符，UTF-16最多占4个字节。最后介绍了在代码中处理unicode编码的主要函数，实际工作中很实用。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://blog.whezh.com/encoded/" target="_blank" rel="external">彻底弄懂 Unicode 编码</a></li>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>使用Android的<code>LiveData</code>，需要在gradle添加引用：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">compile <span class="string">"android.arch.lifecycle:runtime:1.1.1'"</span></div><div class="line">compile <span class="string">"android.arch.lifecycle:extensions:1.1.1'"</span></div><div class="line">annotationProcessor <span class="string">"android.arch.lifecycle:compiler:1.1.1'"</span></div></pre></td></tr></table></figure></p>
+<p><code>LiveData</code>的代码比较简单，我们根据代码来了解其工作原理。我定义一个NetWorkState类，这个类的功能是对网络状态的广播进行监听。在<code>onActive</code>方法中注册广播，在<code>onInactive</code>取消广播，收到广播通知之后执行<code>setValue</code>将实例的值修改为当前网络状态并通知观察者<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">class NetWorkState(val context: Context) : LiveData&lt;Boolean&gt;() &#123;</div><div class="line"></div><div class="line">    private val broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() &#123;</div><div class="line">        override fun onReceive(p0: Context?, p1: Intent?) &#123;</div><div class="line">            value = NetworkUtils.isConnected()</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    override fun onInactive() &#123;</div><div class="line">        super.onInactive()</div><div class="line"></div><div class="line">        context.unregisterReceiver(broadcastReceiver)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    override fun onActive() &#123;</div><div class="line">        super.onActive()</div><div class="line"></div><div class="line">        val intentFilter = IntentFilter()</div><div class="line">        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)</div><div class="line">        context.registerReceiver(broadcastReceiver, intentFilter)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>LiveData包含4个重要的方法：</p>
+<ul>
+<li><code>onActive()</code>：当LiveData被激活时调用</li>
+<li><code>onInactive()</code>：当LiveData被取消时调用</li>
+<li><code>setValue(T)</code>：更新LiveData所持有的数据并通知观察者，必须在主线程调用</li>
+<li><code>postValue(T)</code>：与<code>setValue(T)</code>一样，不过可以在子线程中调用</li>
+</ul>
+<p>LiveData使用起来很简单，直接初始化好LiveData对象之后，调用observe方法将其绑定在当前Activity的LifecycleOwner上<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">class LiveDataActivity : AppCompatActivity() &#123;</div><div class="line"></div><div class="line">    val state: NetWorkState by lazy &#123;</div><div class="line">        NetWorkState(applicationContext)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    override fun onCreate(savedInstanceState: Bundle?) &#123;</div><div class="line">        super.onCreate(savedInstanceState)</div><div class="line">        DataBindingUtil.setContentView&lt;ActivityLivedataBinding&gt;(this, R.layout.activity_livedata)</div><div class="line"></div><div class="line">        state.observe(this, Observer&lt;Boolean&gt; &#123;</div><div class="line">            Toast.makeText(this, if (it) "网络连接成功" else "网络连接失败", Toast.LENGTH_LONG).show()</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="LiveData的实现原理"><a href="#LiveData的实现原理" class="headerlink" title="LiveData的实现原理"></a>LiveData的实现原理</h3><p>我们可以通过<code>observe()</code>源码方法入手来了解一下LiveData生命周期绑定的流程 ：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@MainThread</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">observe</span><span class="params">(@NonNull LifecycleOwner owner, @NonNull Observer&lt;T&gt; observer)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (owner.getLifecycle().getCurrentState() == DESTROYED) &#123;</div><div class="line">        <span class="comment">// 如果owner处在DESTROYED的环节，则直接忽略</span></div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    LifecycleBoundObserver wrapper = <span class="keyword">new</span> LifecycleBoundObserver(owner, observer);</div><div class="line">    ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);</div><div class="line">    <span class="keyword">if</span> (existing != <span class="keyword">null</span> &amp;&amp; !existing.isAttachedTo(owner)) &#123;</div><div class="line">        <span class="comment">// 重复添加会报异常</span></div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Cannot add the same observer"</span></div><div class="line">                + <span class="string">" with different lifecycles"</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">if</span> (existing != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    owner.getLifecycle().addObserver(wrapper);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果owner的声明周期处在<code>DESTROYED</code>的环节，则直接退出。在其他生命周期环节下，LiveData根据owner和observer构造LifecycleBoundObserver对象wrapper，首先检查mObservers是否已经添加了这个observer，如果重复添加会报异常，否则将其添加到mObservers。随后通过<code>owner.getLifecycle().addObserver(wrapper)</code>将其与Lifecycle进行绑定。</p>
+<p><code>owner.getLifecycle().addObserver(wrapper)</code>实际上调用的是Activity/Fragment中的mLifecycleRegistry来添加观察者，最终会调用到LifecycleRegistry中的<code>addObserver(@NonNull LifecycleObserver observer)</code>。这样Activity/Fragment的生命周期变化回调到LifecycleBoundObserver。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">LifecycleBoundObserver</span> <span class="keyword">extends</span> <span class="title">ObserverWrapper</span> <span class="keyword">implements</span> <span class="title">GenericLifecycleObserver</span> </span>&#123;</div><div class="line">       <span class="meta">@NonNull</span> <span class="keyword">final</span> LifecycleOwner mOwner;</div><div class="line"></div><div class="line">       LifecycleBoundObserver(<span class="meta">@NonNull</span> LifecycleOwner owner, Observer&lt;T&gt; observer) &#123;</div><div class="line">           <span class="keyword">super</span>(observer);</div><div class="line">           mOwner = owner;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="meta">@Override</span></div><div class="line">       <span class="function"><span class="keyword">boolean</span> <span class="title">shouldBeActive</span><span class="params">()</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> mOwner.getLifecycle().getCurrentState().isAtLeast(STARTED);</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="meta">@Override</span></div><div class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStateChanged</span><span class="params">(LifecycleOwner source, Lifecycle.Event event)</span> </span>&#123;</div><div class="line">           <span class="keyword">if</span> (mOwner.getLifecycle().getCurrentState() == DESTROYED) &#123;</div><div class="line">               removeObserver(mObserver);</div><div class="line">               <span class="keyword">return</span>;</div><div class="line">           &#125;</div><div class="line">           activeStateChanged(shouldBeActive());</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="meta">@Override</span></div><div class="line">       <span class="function"><span class="keyword">boolean</span> <span class="title">isAttachedTo</span><span class="params">(LifecycleOwner owner)</span> </span>&#123;</div><div class="line">           <span class="keyword">return</span> mOwner == owner;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="meta">@Override</span></div><div class="line">       <span class="function"><span class="keyword">void</span> <span class="title">detachObserver</span><span class="params">()</span> </span>&#123;</div><div class="line">           mOwner.getLifecycle().removeObserver(<span class="keyword">this</span>);</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>LifecycleBoundObserver继承自ObserverWrapper并实现了GenericLifecycleObserver接口。当Activity/Fragment的生命周期变化会回调<code>LifecycleBoundObserver.onStateChanged</code>。如果owner处于<code>DESTROYED</code>，那么就移除当前组件Lifecycle绑定关系。反之则调用<code>activeStateChanged(boolean newActive)</code>。之前我们实现的onActive()与onInactive()全凭它控制。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">activeStateChanged</span><span class="params">(<span class="keyword">boolean</span> newActive)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (newActive == mActive) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// immediately set active state, so we'd never dispatch anything to inactive</span></div><div class="line">    <span class="comment">// owner</span></div><div class="line">    mActive = newActive;</div><div class="line">    <span class="keyword">boolean</span> wasInactive = LiveData.<span class="keyword">this</span>.mActiveCount == <span class="number">0</span>;</div><div class="line">    LiveData.<span class="keyword">this</span>.mActiveCount += mActive ? <span class="number">1</span> : -<span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span> (wasInactive &amp;&amp; mActive) &#123;</div><div class="line">        onActive();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (LiveData.<span class="keyword">this</span>.mActiveCount == <span class="number">0</span> &amp;&amp; !mActive) &#123;</div><div class="line">        onInactive();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (mActive) &#123;</div><div class="line">        dispatchingValue(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>进入<code>activeStateChanged()</code>，首先判断当前的状态是否和上一次一致，一致则方法不执行。其次计算当前<code>mActiveCount</code>的数量，如果LiveData从未被激活过，则调用<code>onActive()</code>方法。因为多个activity有可能共享同一个LiveData，所以这里加入了<code>mActiveCount</code>计数。只要没有一个LiveData被激活，则回调<code>onInactive()</code>。当LiveData被重新激活后，就会执行<code>dispatchingValue()</code>来检查并处理之前没有发出去的通知，然后执行<code>considerNotify()</code>调用观察者的<code>onChanged()</code>将数据发送出去。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">considerNotify</span><span class="params">(ObserverWrapper observer)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (!observer.mActive) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// Check latest state b4 dispatch. Maybe it changed state but we didn't get the event yet.</span></div><div class="line">        <span class="comment">//</span></div><div class="line">        <span class="comment">// we still first check observer.active to keep it as the entrance for events. So even if</span></div><div class="line">        <span class="comment">// the observer moved to an active state, if we've not received that event, we better not</span></div><div class="line">        <span class="comment">// notify for a more predictable notification order.</span></div><div class="line">        <span class="keyword">if</span> (!observer.shouldBeActive()) &#123;</div><div class="line">            observer.activeStateChanged(<span class="keyword">false</span>);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (observer.mLastVersion &gt;= mVersion) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        observer.mLastVersion = mVersion;</div><div class="line">        <span class="comment">//noinspection unchecked</span></div><div class="line">        observer.mObserver.onChanged((T) mData);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>首先要满足mActive为true，这个值改变渠道有2个地方：</p>
+<ul>
+<li>LiveData中组件绑定Lifecycle的时候，此时会将该值通过<code>activeStateChanged()</code>设置为true，解绑的时候设置为false；</li>
+<li>在owner的生命周期发生改变的情况下，生命周期至少在onStart和onPause之间的时候设置为true，其他情况下为false。这就意味着只有在onStart和onPause之间发出的通知才可以立即收到。那onPause之后且未发生onDestory这段时期的通知=会被存在mData，但是也只能存最后一条通知。</li>
+</ul>
+<p>从源码中可以看到，发送数据前还会检查数据版本号，由于每次执行setValue()或者postValue的时候，mVersion都会自增1，所以当你发出多个通知的时候，只有最后一条才会满足observer.mLastVersion &gt;= mVersion，因此也不用担心多条通知并发而产生的时序性问题。</p>
+<h3 id="MutableLiveData"><a href="#MutableLiveData" class="headerlink" title="MutableLiveData"></a>MutableLiveData</h3><p>LiveData中的setValue()与postValue是封装在其内部使用的，MutableLiveData只是将它拿出来，方便我们在外界使用，源码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MutableLiveData</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">LiveData</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postValue</span><span class="params">(T value)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.postValue(value);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(T value)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.setValue(value);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="MediatorLiveData"><a href="#MediatorLiveData" class="headerlink" title="MediatorLiveData"></a>MediatorLiveData</h3><p>MediatorLiveData继承于MutableLiveData，可以同时监听多个LiveData，它提供了<code>addSource()</code>与<code>removeSource()</code>添加和删除LiveData。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@MainThread</span></div><div class="line"><span class="keyword">public</span> &lt;S&gt; <span class="function"><span class="keyword">void</span> <span class="title">addSource</span><span class="params">(@NonNull LiveData&lt;S&gt; source, @NonNull Observer&lt;S&gt; onChanged)</span> </span>&#123;</div><div class="line">    Source&lt;S&gt; e = <span class="keyword">new</span> Source&lt;&gt;(source, onChanged);</div><div class="line">    Source&lt;?&gt; existing = mSources.putIfAbsent(source, e);</div><div class="line">    <span class="keyword">if</span> (existing != <span class="keyword">null</span> &amp;&amp; existing.mObserver != onChanged) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(</div><div class="line">                <span class="string">"This source was already added with the different observer"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (existing != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (hasActiveObservers()) &#123;</div><div class="line">        e.plug();</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@MainThread</span></div><div class="line"><span class="keyword">public</span> &lt;S&gt; <span class="function"><span class="keyword">void</span> <span class="title">removeSource</span><span class="params">(@NonNull LiveData&lt;S&gt; toRemote)</span> </span>&#123;</div><div class="line">    Source&lt;?&gt; source = mSources.remove(toRemote);</div><div class="line">    <span class="keyword">if</span> (source != <span class="keyword">null</span>) &#123;</div><div class="line">        source.unplug();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>MediatorLiveData比较特别的地方在于可以给它随时增加或删除一个LiveData，你可以让其中任何一个LiveData发送通知给MediatorLiveData。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><ul>
+<li><a href="https://developer.android.google.cn/topic/libraries/architecture/livedata" target="_blank" rel="external">LiveData Overview 官方文档</a></li>
+<li><a href="https://blog.csdn.net/qiyei2009/article/details/79367952" target="_blank" rel="external">Android架构组件四 Android Architecture Components LiveData组件解析</a></li>
 </ul>
 
       
@@ -562,7 +494,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/JetPack/" rel="tag"># JetPack</a>
           
         </div>
       
@@ -575,7 +507,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/15/Kotlin中inline-noinline-crossinline的区别/" rel="next" title="Kotlin中inline, noinline, crossinline的区别">
+              <a href="/2018/10/15/Kotlin中inline-noinline-crossinline的区别/" rel="next" title="Kotlin中inline, noinline, crossinline的区别">
                 <i class="fa fa-chevron-left"></i> Kotlin中inline, noinline, crossinline的区别
               </a>
             
@@ -585,8 +517,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/12/26/EditText-限制输入字符个数的三种方式/" rel="prev" title="EditText 限制输入字符个数的三种方式">
-                EditText 限制输入字符个数的三种方式 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/04/JetPack-之-ViewModel/" rel="prev" title="JetPack 之 ViewModel">
+                JetPack 之 ViewModel <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -749,7 +681,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ASCII码"><span class="nav-number">1.</span> <span class="nav-text">ASCII码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Unicode码"><span class="nav-number">2.</span> <span class="nav-text">Unicode码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#UTF-8"><span class="nav-number">2.1.</span> <span class="nav-text">UTF-8</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UTF-16"><span class="nav-number">2.2.</span> <span class="nav-text">UTF-16</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码中处理Unicode码"><span class="nav-number">3.</span> <span class="nav-text">代码中处理Unicode码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LiveData-的优点"><span class="nav-number">1.</span> <span class="nav-text">LiveData 的优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LiveData的实现原理"><span class="nav-number">3.</span> <span class="nav-text">LiveData的实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MutableLiveData"><span class="nav-number">4.</span> <span class="nav-text">MutableLiveData</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MediatorLiveData"><span class="nav-number">5.</span> <span class="nav-text">MediatorLiveData</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>
@@ -881,9 +813,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/12/10/浅谈Unicode编码格式和代码中的应用/';
-          this.page.identifier = '2018/12/10/浅谈Unicode编码格式和代码中的应用/';
-          this.page.title = '浅谈Unicode编码格式和代码中的应用';
+          this.page.url = 'http://yoursite.com/2018/10/29/JetPack-之-LiveData/';
+          this.page.identifier = '2018/10/29/JetPack-之-LiveData/';
+          this.page.title = 'JetPack 之 LiveData';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://zhooker-github-io.disqus.com/embed.js';

@@ -1,0 +1,1315 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JetPack," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/uploads/logo.png?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Room持久库提供了一个SQLite抽象层，让你访问数据库更加稳健，提升数据库性能。App把经常需要访问的数据存储在本地将会大大改善用户的体验。这样用户在网络不好时仍然可以浏览内容。当用户网络可用时，可以更新用户的数据。 Room包含以下三个重要组成部分：  Database 创建数据库。 Entities 数据库表中对应的Java对象 DAOs 访问数据库  详细的结构关系可以看下图： 实例Ro">
+<meta name="keywords" content="JetPack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JetPack 之 Room">
+<meta property="og:url" content="http://yoursite.com/2018/11/12/JetPack-之-Room/index.html">
+<meta property="og:site_name" content="兰">
+<meta property="og:description" content="Room持久库提供了一个SQLite抽象层，让你访问数据库更加稳健，提升数据库性能。App把经常需要访问的数据存储在本地将会大大改善用户的体验。这样用户在网络不好时仍然可以浏览内容。当用户网络可用时，可以更新用户的数据。 Room包含以下三个重要组成部分：  Database 创建数据库。 Entities 数据库表中对应的Java对象 DAOs 访问数据库  详细的结构关系可以看下图： 实例Ro">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1155837-f8d564196e704263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-01-29T08:58:09.121Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JetPack 之 Room">
+<meta name="twitter:description" content="Room持久库提供了一个SQLite抽象层，让你访问数据库更加稳健，提升数据库性能。App把经常需要访问的数据存储在本地将会大大改善用户的体验。这样用户在网络不好时仍然可以浏览内容。当用户网络可用时，可以更新用户的数据。 Room包含以下三个重要组成部分：  Database 创建数据库。 Entities 数据库表中对应的Java对象 DAOs 访问数据库  详细的结构关系可以看下图： 实例Ro">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1155837-f8d564196e704263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/12/JetPack-之-Room/"/>
+
+
+
+
+
+  <title>JetPack 之 Room | 兰</title>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=57021224";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">兰</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/JetPack-之-Room/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="兰兰笑笑生">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/logo.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="兰">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JetPack 之 Room</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-12T16:53:41+08:00">
+                2018-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/程序开发/" itemprop="url" rel="index">
+                    <span itemprop="name">程序开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/11/12/JetPack-之-Room/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2018/11/12/JetPack-之-Room/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2018/11/12/JetPack-之-Room/" class="leancloud_visitors" data-flag-title="JetPack 之 Room">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://developer.android.google.cn/training/data-storage/room/index.html" target="_blank" rel="external">Room</a>持久库提供了一个SQLite抽象层，让你访问数据库更加稳健，提升数据库性能。App把经常需要访问的数据存储在本地将会大大改善用户的体验。这样用户在网络不好时仍然可以浏览内容。当用户网络可用时，可以更新用户的数据。</p>
+<p>Room包含以下三个重要组成部分：</p>
+<ul>
+<li><a href="https://link.jianshu.com/?t=https://developer.android.com/reference/android/arch/persistence/room/Database.html" target="_blank" rel="external">Database</a> 创建数据库。</li>
+<li><a href="https://link.jianshu.com/?t=https://developer.android.com/topic/libraries/architecture/room.html#entities" target="_blank" rel="external">Entities</a> 数据库表中对应的Java对象</li>
+<li><a href="https://link.jianshu.com/?t=https://developer.android.com/topic/libraries/architecture/room.html#daos" target="_blank" rel="external">DAOs</a> 访问数据库</li>
+</ul>
+<p>详细的结构关系可以看下图：<br><img src="https://upload-images.jianshu.io/upload_images/1155837-f8d564196e704263.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p><code>Room</code>和传统写数据库创建访问的代码大概形式差不多的。以存储User信息为例，看一下下面的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// User.java</span></div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> uid;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"first_name"</span>)</div><div class="line">    <span class="keyword">private</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">private</span> String lastName;</div><div class="line"></div><div class="line">    <span class="comment">// Getters and setters are ignored for brevity, </span></div><div class="line">    <span class="comment">// but they're required for Room to work.</span></div><div class="line">    <span class="comment">//Getters和setters为了简单起见就省略了，但是对Room来说是必须的</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// UserDao.java</span></div><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user"</span>)</div><div class="line">    <span class="function">List&lt;User&gt; <span class="title">getAll</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE uid IN (:userIds)"</span>)</div><div class="line">    <span class="function">List&lt;User&gt; <span class="title">loadAllByIds</span><span class="params">(<span class="keyword">int</span>[] userIds)</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE first_name LIKE :first AND "</span></div><div class="line">           + <span class="string">"last_name LIKE :last LIMIT 1"</span>)</div><div class="line">    <span class="function">User <span class="title">findByName</span><span class="params">(String first, String last)</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Insert</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">insertAll</span><span class="params">(User... users)</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Delete</span></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">delete</span><span class="params">(User user)</span></span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// AppDatabase.java</span></div><div class="line"><span class="meta">@Database</span>(entities = &#123;User.class&#125;, version = <span class="number">1</span>)</div><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> <span class="keyword">extends</span> <span class="title">RoomDatabase</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> UserDao <span class="title">userDao</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在创建上面的文件之后，使用以下代码获得创建数据库的实例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">AppDatabase db = Room.databaseBuilder(getApplicationContext(),</div><div class="line">        AppDatabase.class, <span class="string">"database-name"</span>).build();</div></pre></td></tr></table></figure></p>
+<h3 id="使用-Entity实体定义数据"><a href="#使用-Entity实体定义数据" class="headerlink" title="使用@Entity实体定义数据"></a>使用<code>@Entity</code>实体定义数据</h3><p>Room持久化一个类的field必须要求这个field是可以访问的。可以把这个field设为public或者设置setter和getter。如果上面的User类中包含一个字段是不希望存放到数据库中的，那么可以用<code>@Ignore</code>注解这个字段：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="comment">//不需要被存放到数据库中</span></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="Primary-Key-主键"><a href="#Primary-Key-主键" class="headerlink" title="Primary Key 主键"></a>Primary Key 主键</h5><p>每个Entity都必须定义一个field为主键，即使是这个Entity只有一个field。如果想要Room生成自动的primary key，可以使用<code>@PrimaryKey</code>的<code>autoGenerate</code>属性。如果Entity的primary key是多个Field的复合Key，可以向下面这样设置：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(primaryKeys = &#123;<span class="string">"firstName"</span>, <span class="string">"lastName"</span>&#125;)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在默认情况下<code>Room</code>使用类名作为数据库表的名称。如果想要设置不同的名称，可以设置表名tableName为users，如果想要使用不同的名称，可以通过<code>@ColumnInfo(name = &quot;first_name&quot;)</code>设置，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(tableName = <span class="string">"users"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"first_name"</span>)</div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="索引和唯一性"><a href="#索引和唯一性" class="headerlink" title="索引和唯一性"></a>索引和唯一性</h5><p>根据访问数据库的方式，你可能想对特定的field建立索引来加速你的访问。下面这段代码展示了如何在Entity中添加索引或者复合索引：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(indices = &#123;<span class="meta">@Index</span>(<span class="string">"name"</span>),</div><div class="line">        <span class="meta">@Index</span>(value = &#123;<span class="string">"last_name"</span>, <span class="string">"address"</span>&#125;)&#125;)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line">    <span class="keyword">public</span> String address;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line"></div><div class="line">    <span class="meta">@Ignore</span></div><div class="line">    Bitmap picture;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="对象之间的关系"><a href="#对象之间的关系" class="headerlink" title="对象之间的关系"></a>对象之间的关系</h5><p>SQLite是关系型数据库，那么就可以在两个对象之间建立联系。大多数ORM库允许Entity对象互相引用，但Room明确禁止了这样做。详细的原因，可以参考<a href="https://developer.android.com/topic/libraries/architecture/room.html#no-object-references" target="_blank" rel="external">这里</a>。既然不允许建立直接的关系，Room提供以外键的方式在两个Entity之间建立联系。</p>
+<p>例如，有一个Pet类需要和User类建立关系，可以通过<code>@ForeignKey</code>来达到这个目的，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span>(foreignKeys = <span class="meta">@ForeignKey</span>(entity = User.class,</div><div class="line">                                  parentColumns = <span class="string">"id"</span>,</div><div class="line">                                  childColumns = <span class="string">"user_id"</span>))</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pet</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> petId;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String name;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"user_id"</span>)</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> userId;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>外键可以允许你定义被引用的Entity更新时发生的行为。例如，你可以定义当删除<code>User</code>时对应的<code>Pet</code>类也被删除。可以在<code>@ForeignKey</code>中添加<a href="https://developer.android.com/reference/android/arch/persistence/room/ForeignKey.html#onDelete(" target="_blank" rel="external">onDelete = CASCADE</a>)实现。</p>
+<p>有时候需要在类里面把另一个类作为field，这时就需要使用<a href="https://developer.android.com/reference/android/arch/persistence/room/Embedded.html" target="_blank" rel="external">@Embedded</a> 。这样就可以像查询其他列一样查询这个field。例如，User类可以包含一个field <code>Address</code>，代表User的地址包括所在街道、城市、州和邮编。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Address</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> String street;</div><div class="line">    <span class="keyword">public</span> String state;</div><div class="line">    <span class="keyword">public</span> String city;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name = <span class="string">"post_code"</span>)</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> postCode;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="meta">@PrimaryKey</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> id;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@Embedded</span></div><div class="line">    <span class="keyword">public</span> Address address;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在存放User的表中，包含的列名如下：<code>id</code>,<code>firstName</code>,<code>street</code>,<code>state</code>,<code>city</code>,<code>post_code</code>。Embedded 的field中也可以包含其他Embedded的field。如果多个Embedded的field是类型相同的，可以通过设置 <a href="https://developer.android.com/reference/android/arch/persistence/room/Embedded.html#prefix(" target="_blank" rel="external">prefix</a>) 来保证列的唯一性。</p>
+<h3 id="使用DAOs访问数据"><a href="#使用DAOs访问数据" class="headerlink" title="使用DAOs访问数据"></a>使用<code>DAOs</code>访问数据</h3><p><code>DAOs</code>是数据库访问的抽象层。<code>Dao</code>可以是一个接口也可以是一个抽象类。如果是抽象类，那么它可以接受一个<code>RoomDatabase</code>作为构造器的唯一参数。</p>
+<p><strong>注意</strong>：除非在建造器上调用了<a href="https://developer.android.google.cn/reference/android/arch/persistence/room/RoomDatabase.Builder.html#allowMainThreadQueries%28%29" target="_blank" rel="external">allowMainThreadQueries()</a>，否则Room不支持主线程上的数据库访问，因为访问数据库是耗时的，可能阻塞主线程，引起UI卡顿。返回<a href="https://developer.android.google.cn/reference/android/arch/lifecycle/LiveData.html" target="_blank" rel="external">LiveData</a>或<a href="http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Flowable.html" target="_blank" rel="external">Flowable</a>实例的异步查询可免除此规则，因为它们在需要时异步地在后台线程上运行查询。</p>
+<h5 id="Insert"><a href="#Insert" class="headerlink" title="Insert"></a>Insert</h5><p>使用<code>@Insert</code>注解的方法，Room将会生成插入的代码。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Insert</span>(onConflict = OnConflictStrategy.REPLACE)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertUsers</span><span class="params">(User... users)</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Insert</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertBothUsers</span><span class="params">(User user1, User user2)</span></span>;</div><div class="line"></div><div class="line">    <span class="meta">@Insert</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insertUsersAndFriends</span><span class="params">(User user, List&lt;User&gt; friends)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果<code>@Insert</code>方法只接受一个参数，那么将返回一个long，对应着插入的<code>rowId</code>。如果接受多个参数，或者数组，或者集合，那么就会返回一个long的数组或者list。有关详细信息，请参阅@Insert注解的参考文档，以及<a href="https://www.sqlite.org/rowidtable.html" target="_blank" rel="external">SQLite documentation for rowid tables</a>。</p>
+<h5 id="Update"><a href="#Update" class="headerlink" title="Update"></a>Update</h5><p><code>Update</code>方法在数据库中用于修改一组实体的字段。它使用每个实体的主键来匹配查询。下面的代码片段演示如何定义此方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Update</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateUsers</span><span class="params">(User... users)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以让update方法返回一个int型的整数，代表被update的行号。</p>
+<h5 id="Delete"><a href="#Delete" class="headerlink" title="Delete"></a>Delete</h5><p>使用<code>@Insert</code>注解的方法，Room将会生成插入的代码。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Delete</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteUsers</span><span class="params">(User... users)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>和update方法一样，也可以返回一个int型的整数，代表被delete的行号。</p>
+<h5 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h5><p><code>@Query</code>是DAO类中使用的主要注解。它允许您在数据库上执行读/写操作。每个<code>@Query</code>方法在编译时被验证，因此，如果存在查询问题，则会发生编译错误而不是运行时故障。</p>
+<p>Room也会检查查询返回值的类型，如果返回类型的字段和数据路列名存在不一致，会收到警告。如果两者完全不一致，就会产生错误。下面代码示例了普通查询和带参数查询：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user"</span>)</div><div class="line">    <span class="keyword">public</span> User[] loadAllUsers();</div><div class="line"></div><div class="line">   <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE age &gt; :minAge"</span>)</div><div class="line">    <span class="keyword">public</span> User[] loadAllUsersOlderThan(<span class="keyword">int</span> minAge);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里也会在编译时做类型检查，如果表中没有age这个列，那么就会抛出错误。<br>也可以穿入多个参数或一个参数作为多个约束条件查询用户：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE age BETWEEN :minAge AND :maxAge"</span>)</div><div class="line">    <span class="keyword">public</span> User[] loadAllUsersBetweenAges(<span class="keyword">int</span> minAge, <span class="keyword">int</span> maxAge);</div><div class="line"></div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM user WHERE first_name LIKE :search "</span></div><div class="line">           + <span class="string">"OR last_name LIKE :search"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findUserWithName</span><span class="params">(String search)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="返回列的子集"><a href="#返回列的子集" class="headerlink" title="返回列的子集"></a>返回列的子集</h5><p>有时可能只需要Entity的几个field，例如只需要获取User的姓名就行了。通过只获取这两列的数据不仅能够节省宝贵的资源，还能加快查询速度。<br>Room也提供了这样的功能。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NameTuple</span> </span>&#123;</div><div class="line">    <span class="meta">@ColumnInfo</span>(name=<span class="string">"first_name"</span>)</div><div class="line">    <span class="keyword">public</span> String firstName;</div><div class="line"></div><div class="line">    <span class="meta">@ColumnInfo</span>(name=<span class="string">"last_name"</span>)</div><div class="line">    <span class="keyword">public</span> String lastName;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT first_name, last_name FROM user"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> List&lt;NameTuple&gt; <span class="title">loadFullName</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="可被观察的查询"><a href="#可被观察的查询" class="headerlink" title="可被观察的查询"></a>可被观察的查询</h5><p>通过和<code>LiveData</code>的配合使用，就可以实现当数据库内容发生变化时自动收到变化后的数据的功能。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT first_name, last_name FROM user WHERE region IN (:regions)"</span>)</div><div class="line">    <span class="keyword">public</span> LiveData&lt;List&lt;User&gt;&gt; loadUsersFromRegionsSync(List&lt;String&gt; regions);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h5 id="查询多个表"><a href="#查询多个表" class="headerlink" title="查询多个表"></a>查询多个表</h5><p>有时可能需要查询多个表来获取结果，Room也定义这样的功能。下面这段代码演示了如何从一个包含借阅用户信息的表和一个包含已经被借阅的书的表中获取信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">    <span class="meta">@Query</span>(<span class="string">"SELECT * FROM book "</span></div><div class="line">           + <span class="string">"INNER JOIN loan ON loan.book_id = book.id "</span></div><div class="line">           + <span class="string">"INNER JOIN user ON user.id = loan.user_id "</span></div><div class="line">           + <span class="string">"WHERE user.name LIKE :userName"</span>)</div><div class="line">   <span class="function"><span class="keyword">public</span> List&lt;Book&gt; <span class="title">findBooksBorrowedByNameSync</span><span class="params">(String userName)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以从查询中返回POJO类。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Dao</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyDao</span> </span>&#123;</div><div class="line">   <span class="meta">@Query</span>(<span class="string">"SELECT user.name AS userName, pet.name AS petName "</span></div><div class="line">          + <span class="string">"FROM user, pet "</span></div><div class="line">          + <span class="string">"WHERE user.id = pet.user_id"</span>)</div><div class="line">   <span class="keyword">public</span> LiveData&lt;List&lt;UserPet&gt;&gt; loadUserAndPetNames();</div><div class="line"></div><div class="line">   <span class="comment">// You can also define this class in a separate file, as long as you add the</span></div><div class="line">   <span class="comment">// "public" access modifier.</span></div><div class="line">   <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">UserPet</span> </span>&#123;</div><div class="line">       <span class="keyword">public</span> String userName;</div><div class="line">       <span class="keyword">public</span> String petName;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="数据库迁移"><a href="#数据库迁移" class="headerlink" title="数据库迁移"></a>数据库迁移</h3><p>随着业务的扩展有时候需要对数据库调整一些字段。当数据库升级时，需要保存已有的数据。</p>
+<p><code>Room</code>使用 <code>Migration</code> 来实现数据库的迁移。每个<code>Migration</code> 都指定了<code>startVersion</code>和<code>endVersion</code>。在运行的时候Room运行每个<code>Migration</code>的<code>migrate()</code> 方法，按正确的顺序来迁移数据库到下个版本。如果没有提供足够的迁移信息，Room会重新创建数据库，这意味着将会失去原来保存的信息。</p>
+<p>迁移是很重要的，可能会导致应用程序崩溃。为了保持应用程序的稳定性，您应该事先测试迁移。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">Room.databaseBuilder(getApplicationContext(), MyDb.class, <span class="string">"database-name"</span>)</div><div class="line">        .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> Migration MIGRATION_1_2 = <span class="keyword">new</span> Migration(<span class="number">1</span>, <span class="number">2</span>) &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate</span><span class="params">(SupportSQLiteDatabase database)</span> </span>&#123;</div><div class="line">        database.execSQL(<span class="string">"CREATE TABLE `Fruit` (`id` INTEGER, "</span></div><div class="line">                + <span class="string">"`name` TEXT, PRIMARY KEY(`id`))"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> Migration MIGRATION_2_3 = <span class="keyword">new</span> Migration(<span class="number">2</span>, <span class="number">3</span>) &#123;</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">migrate</span><span class="params">(SupportSQLiteDatabase database)</span> </span>&#123;</div><div class="line">        database.execSQL(<span class="string">"ALTER TABLE Book "</span></div><div class="line">                + <span class="string">" ADD COLUMN pub_year INTEGER"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><strong>注意</strong>：如果您不提供必要的迁移，则<code>Room</code>会重新构建数据库，这意味着您将丢失数据库中的所有数据。</p>
+<h3 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h3><ul>
+<li><a href="https://developer.android.com/training/data-storage/room/" target="_blank" rel="external">Save data in a local database using Room 官方文档</a></li>
+<li><a href="https://blog.csdn.net/u011897062/article/details/82107709" target="_blank" rel="external">【译】Android Room 官方指南</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JetPack/" rel="tag"># JetPack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/04/JetPack-之-ViewModel/" rel="next" title="JetPack 之 ViewModel">
+                <i class="fa fa-chevron-left"></i> JetPack 之 ViewModel
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/26/EditText-限制输入字符个数的三种方式/" rel="prev" title="EditText 限制输入字符个数的三种方式">
+                EditText 限制输入字符个数的三种方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/logo.png"
+               alt="兰兰笑笑生" />
+          <p class="site-author-name" itemprop="name">兰兰笑笑生</p>
+           
+              <p class="site-description motion-element" itemprop="description">趁着春天还在，我是来找蝴蝶的。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/zhooker" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-Entity实体定义数据"><span class="nav-number">2.</span> <span class="nav-text">使用@Entity实体定义数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Primary-Key-主键"><span class="nav-number">2.0.1.</span> <span class="nav-text">Primary Key 主键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#索引和唯一性"><span class="nav-number">2.0.2.</span> <span class="nav-text">索引和唯一性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对象之间的关系"><span class="nav-number">2.0.3.</span> <span class="nav-text">对象之间的关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用DAOs访问数据"><span class="nav-number">3.</span> <span class="nav-text">使用DAOs访问数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Insert"><span class="nav-number">3.0.1.</span> <span class="nav-text">Insert</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Update"><span class="nav-number">3.0.2.</span> <span class="nav-text">Update</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Delete"><span class="nav-number">3.0.3.</span> <span class="nav-text">Delete</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Query"><span class="nav-number">3.0.4.</span> <span class="nav-text">Query</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回列的子集"><span class="nav-number">3.0.5.</span> <span class="nav-text">返回列的子集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#可被观察的查询"><span class="nav-number">3.0.6.</span> <span class="nav-text">可被观察的查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查询多个表"><span class="nav-number">3.0.7.</span> <span class="nav-text">查询多个表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库迁移"><span class="nav-number">4.</span> <span class="nav-text">数据库迁移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章"><span class="nav-number">5.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">兰兰笑笑生</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://zhooker-github-io.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2018/11/12/JetPack-之-Room/';
+          this.page.identifier = '2018/11/12/JetPack-之-Room/';
+          this.page.title = 'JetPack 之 Room';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhooker-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("Jk7wAF8otkP6eSY2LWTx8PaW-gzGzoHsz", "abNtLVang8SHTh8rmEAEAu09");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
